@@ -12,7 +12,8 @@
 Web editor based on [CodeMirror](http://codemirror.net).
 Fork of [edward](https://github.com/cloudcmd/edward "Edward").
 
-![qword](https://raw.githubusercontent.com/cloudcmd/qword/master/img/qword.png "qword")
+<img width="601" height="295" alt="image" src="https://github.com/user-attachments/assets/e632f48a-ef74-4d5c-bbe8-8f6e44151d00" />
+
 
 ## Features
 
