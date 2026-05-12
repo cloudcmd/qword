@@ -1,7 +1,7 @@
 {
   "name": "qword",
   "version": "1.0.0",
-  "description": "Web editor based on CodeMirror",
+  "description": "Web editor based on CodeMirror 6",
   "main": "./server/index.js",
   "exports": "./server/index.js",
   "type": "module",
