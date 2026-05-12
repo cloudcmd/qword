@@ -27,6 +27,7 @@ import {createPatch} from 'daffy';
 import * as restafary from 'restafary/client';
 import {tryCatch} from 'try-catch';
 import {vim} from '@replit/codemirror-vim';
+import {tryToCatch} from 'try-to-catch';
 import Story from './story.js';
 import loadRemote, {loadModules, loadOptions} from './loadremote.js';
 import _clipboard from './_clipboard.js';
@@ -98,6 +99,13 @@ export default function Qword(el, options = {}, callback = noop) {
 
 Qword.prototype._init = async function() {
     const prefix = this._PREFIX;
+    
+    const [error, config] = await tryToCatch(load.json, this._PREFIX + '/edit.json');
+    
+    if (error)
+        return smalltalk.alert(this._TITLE, 'Could not load edit.json!');
+    
+    this._Config = config;
     
     await Promise.all([
         loadOptions(prefix),
@@ -364,6 +372,20 @@ Qword.prototype.sha = function() {
     return shaObj.getHash('HEX');
 };
 
+Qword.prototype.setOption = function(name, value) {
+    const {_Ace} = this;
+    const preventOverwrite = () => {
+        this._Config.options[name] = value;
+    };
+    
+    preventOverwrite();
+    
+    if (name === 'keyMap')
+        this.setKeyMap(value);
+    
+    return this;
+};
+
 Qword.prototype.setOptions = function(options) {
     const theme = EditorView.theme({
         '&': {
@@ -402,4 +424,9 @@ Qword.prototype._loadOptions = async function() {
     this._Options = data;
     
     return data;
+};
+
+Qword.prototype.enableKey = function() {
+    this._isKey = true;
+    return this;
 };
