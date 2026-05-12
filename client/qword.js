@@ -11,12 +11,18 @@ import {
     historyKeymap,
     defaultKeymap,
 } from '@codemirror/commands';
+import {
+    syntaxHighlighting,
+    defaultHighlightStyle,
+} from '@codemirror/language';
+import {oneDark} from '@codemirror/theme-one-dark';
 import {javascript} from '@codemirror/lang-javascript';
 import {json} from '@codemirror/lang-json';
 import {html} from '@codemirror/lang-html';
 import Emitify from 'emitify';
 import * as smalltalk from 'smalltalk';
 import jssha from 'jssha';
+import load from 'load.js';
 import {createPatch} from 'daffy';
 import * as restafary from 'restafary/client';
 import {tryCatch} from 'try-catch';
@@ -26,42 +32,66 @@ import _clipboard from './_clipboard.js';
 import save from './save.js';
 import _initSocket from './_init-socket.js';
 import _onSave from './_on-save.js';
+import showMessage from './show-message.js';
 
+const isFn = (a) => typeof a === 'function';
 const isString = (a) => typeof a === 'string';
 
-export default function Qword(el, options, callback) {
+export default function Qword(el, options = {}, callback = () => {}) {
     if (!(this instanceof Qword))
         return new Qword(el, options, callback);
 
-    if (!callback)
+    if (isFn(options)) {
         callback = options;
+        options = {};
+    }
 
     this._DIR = '/modules/';
     this._TITLE = 'Qword';
+
     this._story = Story();
+
     this._Separator = '\n';
     this._isKey = true;
 
     this._Element = isString(el) ? document.querySelector(el) : el || document.body;
 
+    if (!this._Element)
+        throw Error('Qword: element not found');
+
     this._maxSize = options.maxSize || 512_000;
+
     this._PREFIX = options.prefix || '/qword';
+
     this._prefixSocket = options.prefixSocket || '/qword';
+
     this._socketPath = options.socketPath || '';
 
     this._Emitter = Emitify();
+
     this._view = null;
+
+    this._pendingValue = null;
 
     this._modeCompartment = new Compartment();
     this._keymapCompartment = new Compartment();
     this._fontCompartment = new Compartment();
 
     this._Element.addEventListener('drop', this._onDrop.bind(this));
+
     this._Element.addEventListener('dragover', this._onDragOver.bind(this));
 
     this
         ._init()
         .then(() => callback(this));
+
+    this._patch = (path, patch) => {
+        this._patchHttp(path, patch);
+    };
+
+    this._write = (path, result) => {
+        this._writeHttp(path, result);
+    };
 }
 
 Qword.prototype._init = async function() {
@@ -71,6 +101,7 @@ Qword.prototype._init = async function() {
         loadOptions(prefix),
         loadModules(prefix),
     ]);
+
     await loadRemote('socket', {
         prefix: this._socketPath,
     });
@@ -78,9 +109,28 @@ Qword.prototype._init = async function() {
     restafary.prefix(`${this._PREFIX}/api/v1/fs`);
 
     this._initEditor();
+
+    if (this._pendingValue !== null) {
+        this.setValue(this._pendingValue);
+        this._pendingValue = null;
+    }
+
     this._initSocket();
 
     return this;
+};
+
+Qword.prototype._loadOptions = async function() {
+    const url = this._PREFIX + '/options.json';
+
+    if (this._Options)
+        return this._Options;
+
+    const data = await load.json(url);
+
+    this._Options = data;
+
+    return data;
 };
 
 Qword.prototype._initEditor = function() {
@@ -88,11 +138,14 @@ Qword.prototype._initEditor = function() {
         lineNumbers(),
         history(),
         highlightActiveLine(),
+        syntaxHighlighting(defaultHighlightStyle),
+        oneDark,
         this._modeCompartment.of(javascript()),
         keymap.of([
             ...defaultKeymap,
             ...historyKeymap, {
-                key: 'Ctrl-s',
+                key: 'Mod-s',
+
                 run: () => {
                     if (this._isKey)
                         this.save();
@@ -119,6 +172,11 @@ Qword.prototype.getValue = function() {
 };
 
 Qword.prototype.setValue = function(value) {
+    if (!this._view) {
+        this._pendingValue = value;
+        return this;
+    }
+
     this._view.dispatch({
         changes: {
             from: 0,
@@ -132,11 +190,13 @@ Qword.prototype.setValue = function(value) {
 
 Qword.prototype.focus = function() {
     this._view.focus();
+
     return this;
 };
 
 Qword.prototype.getCursor = function() {
     const pos = this._view.state.selection.main.head;
+
     const line = this._view.state.doc.lineAt(pos);
 
     return {
@@ -152,6 +212,7 @@ Qword.prototype.moveCursorTo = function(row, column = 0) {
         selection: {
             anchor: line.from + column,
         },
+
         scrollIntoView: true,
     });
 
@@ -195,6 +256,8 @@ Qword.prototype.setModeForPath = function(path) {
 };
 
 Qword.prototype.setValueFirst = function(name, value) {
+    this.setModeForPath(name);
+
     this.setValue(value);
 
     this._FileName = name;
@@ -210,8 +273,10 @@ Qword.prototype.addKeyMap = function(map) {
         .entries(map)
         .map(([key, fn]) => ({
             key,
+
             run: () => {
                 fn.call(this);
+
                 return true;
             },
         }));
@@ -225,16 +290,27 @@ Qword.prototype.addKeyMap = function(map) {
 
 Qword.prototype.on = function(event, fn) {
     this._Emitter.on(event, fn);
+
     return this;
 };
 
 Qword.prototype.emit = function(...args) {
     this._Emitter.emit(...args);
+
     return this;
 };
 
 Qword.prototype.isChanged = function() {
     return this.getValue() !== this._Value;
+};
+
+Qword.prototype._doDiff = async function(path) {
+    const value = this.getValue();
+
+    const patch = this._diff(value);
+    const equal = await this._story.checkHash(path);
+
+    return equal ? patch : '';
 };
 
 Qword.prototype._diff = function(newValue) {
@@ -273,6 +349,7 @@ Qword.prototype.goToLine = function() {
         selection: {
             anchor: line.from,
         },
+
         scrollIntoView: true,
     });
 
@@ -280,12 +357,16 @@ Qword.prototype.goToLine = function() {
 };
 
 Qword.prototype._clipboard = _clipboard;
+
 Qword.prototype.save = save;
+
 Qword.prototype._onSave = _onSave;
+
 Qword.prototype._initSocket = _initSocket;
 
 Qword.prototype._onDragOver = function(event) {
     event.preventDefault();
+
     event.dataTransfer.dropEffect = 'copy';
 };
 
@@ -308,6 +389,7 @@ Qword.prototype._onDrop = function(event) {
 
 Qword.prototype.sha = function() {
     const shaObj = new jssha('SHA-1', 'TEXT');
+
     shaObj.update(this.getValue());
 
     return shaObj.getHash('HEX');
@@ -327,3 +409,6 @@ Qword.prototype.setOptions = function(options) {
 
     return this;
 };
+
+Qword.prototype.showMessage = showMessage;
+
