@@ -131,6 +131,7 @@ Qword.prototype._init = async function() {
 };
 
 Qword.prototype._initEditor = function() {
+    this._Element.style.height = '100vh';
     const baseExtensions = () => [
         lineNumbers(),
         history(),
