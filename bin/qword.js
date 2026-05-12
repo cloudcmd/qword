@@ -54,10 +54,10 @@ function main(name) {
     app
         .use(express.static(DIR))
         .use(qword({
-            online: false,
-            diff: true,
-            zip: true,
-        }));
+        online: false,
+        diff: true,
+        zip: true,
+    }));
     
     server.listen(port, ip);
     
@@ -98,7 +98,11 @@ function usage() {
 }
 
 async function help() {
-    const bin = await import('../json/bin');
+    const bin = await import('../json/bin.json', {
+        with: {
+            type: 'json',
+        },
+    });
     
     usage();
     console.log('Options:');
