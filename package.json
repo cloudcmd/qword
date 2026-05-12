@@ -1,6 +1,6 @@
 {
   "name": "qword",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Web editor based on CodeMirror 6",
   "main": "./server/index.js",
   "exports": "./server/index.js",
