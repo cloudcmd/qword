@@ -35,10 +35,12 @@ import _initSocket from './_init-socket.js';
 import _onSave from './_on-save.js';
 import showMessage from './show-message.js';
 
+const noop = () => {};
+
 const isFn = (a) => typeof a === 'function';
 const isString = (a) => typeof a === 'string';
 
-export default function Qword(el, options = {}, callback = () => {}) {
+export default function Qword(el, options = {}, callback = noop) {
     if (!(this instanceof Qword))
         return new Qword(el, options, callback);
     
@@ -75,14 +77,15 @@ export default function Qword(el, options = {}, callback = () => {}) {
     this._keymapCompartment = new Compartment();
     this._fontCompartment = new Compartment();
     this._langCompartment = new Compartment();
-    
     // ✅ FIX: добавили vim compartment
     this._vimCompartment = new Compartment();
     
     this._Element.addEventListener('drop', this._onDrop.bind(this));
     this._Element.addEventListener('dragover', this._onDragOver.bind(this));
     
-    this._init().then(() => callback(this));
+    this
+        ._init()
+        .then(() => callback(this));
     
     this._patch = (path, patch) => {
         this._patchHttp(path, patch);
@@ -126,16 +129,12 @@ Qword.prototype._initEditor = function() {
         highlightActiveLine(),
         syntaxHighlighting(defaultHighlightStyle),
         oneDark,
-        
         this._langCompartment.of(javascript()),
-        
         // ✅ FIX: vim теперь через compartment
         this._vimCompartment.of([]),
-        
         keymap.of([
             ...defaultKeymap,
-            ...historyKeymap,
-            {
+            ...historyKeymap, {
                 key: 'Mod-s',
                 run: () => {
                     this.save();
@@ -213,16 +212,22 @@ Qword.prototype.remove = function(direction) {
     const pos = this._view.state.selection.main.head;
     
     this._view.dispatch({
-        changes: direction === 'right'
-            ? {from: pos, to: pos + 1}
-            : {from: pos - 1, to: pos},
+        changes: direction === 'right' ? {
+            from: pos,
+            to: pos + 1,
+        } : {
+            from: pos - 1,
+            to: pos,
+        },
     });
     
     return this;
 };
 
 Qword.prototype.setModeForPath = function(path) {
-    const ext = path.split('.').pop();
+    const ext = path
+        .split('.')
+        .pop();
     
     let lang = javascript();
     
@@ -252,18 +257,18 @@ Qword.prototype.setValueFirst = function(name, value) {
 };
 
 Qword.prototype.addKeyMap = function(map) {
-    const bindings = Object.entries(map).map(([key, fn]) => ({
-        key,
-        run: () => {
-            fn.call(this);
-            return true;
-        },
-    }));
+    const bindings = Object
+        .entries(map)
+        .map(([key, fn]) => ({
+            key,
+            run: () => {
+                fn.call(this);
+                return true;
+            },
+        }));
     
     this._view.dispatch({
-        effects: this._keymapCompartment.reconfigure(
-            keymap.of(bindings),
-        ),
+        effects: this._keymapCompartment.reconfigure(keymap.of(bindings)),
     });
     
     return this;
@@ -316,7 +321,9 @@ Qword.prototype.goToLine = function() {
     const line = this._view.state.doc.line(num);
     
     this._view.dispatch({
-        selection: {anchor: line.from},
+        selection: {
+            anchor: line.from,
+        },
         scrollIntoView: true,
     });
     
@@ -378,10 +385,21 @@ Qword.prototype.setKeyMap = function(mode) {
     this._vimEnabled = mode === 'vim';
     
     this._view.dispatch({
-        effects: this._vimCompartment.reconfigure(
-            this._vimEnabled ? vim() : [],
-        ),
+        effects: this._vimCompartment.reconfigure(this._vimEnabled ? vim() : []),
     });
     
     return this;
+};
+
+Qword.prototype._loadOptions = async function() {
+    const url = this._PREFIX + '/options.json';
+    
+    if (this._Options)
+        return this._Options;
+    
+    const data = await load.json(url);
+    
+    this._Options = data;
+    
+    return data;
 };

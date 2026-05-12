@@ -1,14 +1,15 @@
 {
     "match": {
         "client": {
-            "nodejs/declare": "off"
+            "nodejs/convert-commonjs-to-esm/common": "off",
+            "nodejs": "off"
         },
         "client/dword.js": {
             "remove-console": "off"
         }
     },
     "ignore": [
-        "modules",
-        "codemirror"
+        "codemirror",
+        "modules"
     ]
 }
