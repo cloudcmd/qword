@@ -1,0 +1,27 @@
+{
+  "name": "cm-searchbox",
+  "version": "1.0.8",
+  "description": "CodeMirror searchbox",
+  "main": "lib/searchbox.js",
+  "scripts": {
+    "test": "jshint lib",
+    "jshint": "jshint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coderaiser/cm-searchbox.git"
+  },
+  "keywords": [
+    "codemirror",
+    "searchbox"
+  ],
+  "author": "coderaiser <mnemonic.enemy@gmail.com> (http://coderaiser.github.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coderaiser/cm-searchbox/issues"
+  },
+  "homepage": "https://github.com/coderaiser/cm-searchbox",
+  "devDependencies": {
+    "jshint": "~2.8.0"
+  }
+}

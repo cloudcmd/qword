@@ -1,0 +1,2333 @@
+2026.05.12, v16.0.2
+
+feature:
+- aa95418 dword: eslint-plugin-putout v31.1.3
+- 5ea6785 dword: eslint v10.3.0
+- 87c6145 dword: madrun v13.0.1
+- 53683ef dword: putout v42.5.0
+- f2e9134 dword: webpack-cli v7.0.2
+
+2026.02.13, v16.0.1
+
+feature:
+- f850ae4 dword: socket-file v8.0.0
+
+2026.02.05, v16.0.0
+
+feature:
+- c189463 dword: migrate to ESM
+- 7dd2705 dword: drop support of node < 22
+- 28cf7ad dword: webpack-cli v6.0.1
+- f4d9398 dword: try-to-catch v4.0.5
+- 98681d0 dword: style-loader v4.0.0
+- e74b126 dword: smalltalk v5.0.0
+- f5c1f3c dword: rimraf v6.1.2
+- d12dc81 dword: restafary v13.0.1
+- fadf67b dword: putout v41.18.0
+- 09740ed dword: madrun v12.1.3
+- f538eb8 dword: express v5.2.1
+- 055166c dword: eslint-plugin-putout v30.0.2
+- 2107bce dword: eslint v9.39.2
+- dc51660 dword: cssnano v7.1.2
+- cd9a92f dword: css-loader v7.1.3
+- d1ab090 dword: codemirror v6.0.2
+- ca5bcc6 dword: babel-loader v10.0.0
+
+2024.03.16, v15.0.4
+
+feature:
+- 505e493 dword: restbox v4.0.1
+
+2024.03.06, v15.0.3
+
+feature:
+- fa41776 dword: socket-file v7.0.0
+
+2024.02.02, v15.0.2
+
+fix:
+- 6e240cf dword: lint
+
+2024.02.02, v15.0.1
+
+fix:
+- 0a97279 modules: codemirror
+
+2024.02.02, v15.0.0
+
+feature:
+- 5631d48 dword: codemirror v5.65.16
+- 4cd145a dword: restafary v12.0.0
+- 1914f33 dword: putout v35.0.4
+- a9fb0c5 dword: madrun v10.0.1
+- e21a198 dword: eslint-plugin-putout v22.3.1
+- 0c87831 dword: drop support of node < 18
+- 9345a91 dword: restafary v11.5.1
+
+2023.08.08, v14.1.0
+
+feature:
+- cac2967 package: cssnano v6.0.1
+- adc4ca6 package: nodemon v3.0.1
+- 9023c79 package: putout v31.0.3
+- ede9dcd package: babel-loader v9.1.3
+- c016121 package: eslint-plugin-putout v19.0.3
+- 0acd90f package: webpack-cli v5.1.4
+- b70f10d package: rimraf v5.0.1
+
+2022.09.20, v14.0.1
+
+feature:
+- (package) putout v27.9.0 (https://github.com/coderaiser/putout/releases/tag/v27.0.0)
+
+2022.04.22, v14.0.0
+
+feature:
+- (dword) drop support of node < 16
+- (package) socket-file v6.0.0
+- (package) madrun v9.0.2
+- (package) putout v25.15.0
+- (package) eslint-plugin-putout v14.11.0
+- (package) restafary v11.0.0
+
+
+2021.11.04, v13.0.6
+
+feature:
+- (package) eslint-plugin-putout v11.0.0
+- (package) putout v21.1.1
+- (package) clean-css-loader v4.1.1
+- (package) css-loader v6.5.0
+- (package) codemirror v5.63.3
+
+2021.08.16, v13.0.5
+
+feature:
+- (package) eslint v8.0.0-beta.0
+- (package) cssnano v5.0.7
+- (package) codemirror v5.62.2
+- (package) eslint-plugin-putout v9.0.2
+- (package) putout v18.14.0
+- (package) style-loader v3.2.1
+
+
+2021.03.22, v13.0.4
+
+feature:
+- (package) codemirror v5.60.0
+- (package) socket.io v4.0.0
+
+
+2021.02.28, v13.0.3
+
+feature:
+- (package) eslint-plugin-putout v7.2.0
+- (package) codemirror v5.59.4
+- (package) clean-css-loader v3.0.0
+- (package) restbox v3.0.0
+- (package) putout v15.3.1
+- (package) restafary v10.1.0
+
+
+2021.01.25, v13.0.2
+
+feature:
+- (package) join-io v5.0.0
+
+
+2021.01.19, v13.0.1
+
+feature:
+- (package) socket-file v5.0.0
+
+
+2021.01.17, v13.0.0
+
+feature:
+- (modules) socket.io v3.1.0
+- (package) codemirror v5.59.1
+- (dword) drop support of node < 14
+- (package) socket.io v3.1.0
+- (package) putout v13.7.0
+- (package) restafary v9.1.1
+- (package) madrun v8.6.0
+
+
+2020.11.22, v12.0.16
+
+fix:
+- (dword) jssha.default -> jssha
+
+feature:
+- (package) putout v11.0.4
+- (package) eslint-plugin-putout v6.0.1
+
+
+2020.10.27, v12.0.15
+
+feature:
+- (package) codemirror v5.58.2
+- (package) css-loader v5.0.0
+- (package) style-loader v2.0.0
+- (package) webpack-cli v4.0.0
+- (package) webpack v5.1.3
+
+
+2020.09.24, v12.0.14
+
+feature:
+- (package) codemirror v5.58.1
+- (package) putout v10.0.1
+
+
+2020.09.06, v12.0.13
+
+feature:
+- (package) codemirror v5.57.0
+
+
+2020.08.17, v12.0.12
+
+feature:
+- (bower) cm-show-invisibles v3.1.0
+
+
+2020.08.13, v12.0.11
+
+feature:
+- (package) css-loader v4.2.1
+- (package) codemirror v5.56.0
+
+
+2020.07.20, v12.0.10
+
+feature:
+- (package) eslint-plugin-putout v5.0.1
+- (package) madrun v7.0.0
+- (package) putout v9.3.0
+- (bower) jshint v2.11.1
+
+
+2020.06.22, v12.0.9
+
+feature:
+- (package) codemirror v5.55.0
+
+
+2020.06.06, v12.0.8
+
+feature:
+- (package) codemirror v5.54.0
+- (package) eslint v7.0.0
+- (package) madrun v6.0.0
+- (package) putout v8.0.2
+- (package) eslint-plugin-putout v4.0.1
+
+
+2020.04.26, v12.0.7
+
+fix:
+- (dword) jssha: default
+
+feature:
+- (package) codemirror v5.53.2
+
+
+2020.04.16, v12.0.6
+
+feature:
+- (package) jssha v3.1.0
+- (modules) codemirror v5.52.2
+
+
+2020.04.10, v12.0.5
+
+feature:
+- (package) jssha v3.0.0
+
+
+2020.03.31, v12.0.4
+
+feature:
+- (package) @cloudcmd/create-element v2.0.2
+- (package) codemirror v5.52.2
+- (package) smalltalk v4.0.6
+- (package) url-loader v4.0.0
+
+
+2020.03.06, v12.0.3
+
+fix:
+- (server) edit: readjson
+
+
+2020.03.02, v12.0.2
+
+feature:
+- (package) socket-file v4.0.0
+- (package) readjson v2.0.1
+
+
+2020.02.26, v12.0.1
+
+feature:
+- (package) try-to-catch v3.0.0
+- (modules) codemirror v5.52
+
+
+2020.02.21, v12.0.0
+
+feature:
+- (dword) drop support of node < 10
+- (package) codemirror v5.52.0
+- (package) join-io v4.0.0
+
+
+2020.01.30, v11.2.7
+
+feature:
+- (package) codemirror v5.51.0
+- (package) @cloudcmd/clipboard v2.0.0
+
+
+2020.01.17, v11.2.6
+
+feature:
+- (modules) codemirror v5.50.2
+
+
+2020.01.17, v11.2.5
+
+feature:
+- (package) codemirror v5.50.2
+- (package) emitify v4.0.1
+
+
+2019.12.16, v11.2.4
+
+fix:
+- (dword) initSocket
+
+feature:
+- (dword) cm-show-invisibles v3.0.0
+- (package) url-loader v3.0.0
+
+
+2019.11.22, v11.2.3
+
+feature:
+- (package) codemirror v5.49.2
+- (package) nodemon v2.0.1
+- (package) madrun v5.0.0
+- (package) eslint-plugin-putout v3.0.0
+- (package) putout v7.0.2
+- (package) madrun v4.1.4
+
+
+2019.10.16, v11.2.2
+
+fix:
+- (dword) try-to-catch
+
+
+2019.09.25, v11.2.1
+
+fix:
+- (server) listen: maybe root
+
+
+2019.09.25, v11.2.0
+
+fix:
+- (dword) singletone (coderaiser/cloudcmd/issues/254)
+
+
+2019.09.24, v11.1.6
+
+feature:
+- (package) codemirror v5.49.0
+- (package) restafary v8.0.1
+- (package) restbox v2.0.0
+
+
+2019.09.19, v11.1.5
+
+fix:
+- (dword) load.js
+
+
+2019.09.19, v11.1.4
+
+feature:
+- (package) smalltalk v4.0.2
+- (package) putout v6.1.0
+- (package) @cloudcmd/create-element v2.0.1
+- (package) load.js v3.0.2
+- (package) currify v4.0.0
+
+
+2019.09.11, v11.1.3
+
+feature:
+- (package) rm unused ashify
+- (package) ashify v2.0.1
+
+
+2019.09.09, v11.1.2
+
+feature:
+- (package) fullstore v2.0.2
+
+
+2019.09.09, v11.1.1
+
+feature:
+- (package) wraptile v3.0.0
+
+
+2019.09.04, v11.1.0
+
+feature:
+- (package) madrun v3.0.1
+- (package) restafary v7.0.0
+- (client) browserlist
+
+
+2019.08.19, v11.0.4
+
+feature:
+- (package) eslint-plugin-putout v2.0.0
+- (package) rimraf v3.0.0
+- (package) putout v5.7.0
+- (package) style-loader v1.0.0
+- (package) codemirror v5.48.4
+
+
+2019.07.24, v11.0.3
+
+feature:
+- (package) codemirror v5.48.2
+
+
+2019.07.01, v11.0.2
+
+feature:
+- (package) codemirror v5.48.0
+- (package) eslint v6.0.1
+- (package) url-loader v2.0.0
+
+
+2019.06.03, v11.0.1
+
+feature:
+- (package) codemirror v5.47.0
+
+
+2019.05.06, v11.0.0
+
+feature:
+- (package) clean-css-loader v2.0.0
+- (dword) drop support of jshint
+
+
+2019.04.08, v10.0.1
+
+feature:
+- (package) smalltalk v3.3.0
+
+
+2019.04.01, v10.0.0
+
+feature:
+- (dword) remove support of beautify, minify
+
+
+2019.03.20, v9.1.6
+
+feature:
+- (package) codemirror v5.45.0
+
+
+2019.02.22, v9.1.5
+
+feature:
+- (package) codemirror v5.44.0
+- (dword) add madrun.js
+
+
+2019.02.15, v9.1.4
+
+feature:
+- (package) restafary v5.0.8
+
+
+2019.01.22, v9.1.3
+
+feature:
+- (package) codemirror v5.43.0
+
+
+2019.01.10, v9.1.2
+
+feature:
+- (package) codemirror v5.42.2
+- (package) css-loader v2.0.1
+
+
+2018.12.04, v9.1.1
+
+feature:
+- (package) codemirror v5.42.0
+- (modules) socket.io v2.2.0
+
+
+2018.11.09, v9.1.0
+
+feature:
+- (dword) add dropbox support
+
+
+2018.10.30, v9.0.3
+
+feature:
+- (server) dword: rm condition has no sense
+
+
+2018.10.30, v9.0.2
+
+feature:
+- (dword) add restafary from npm
+
+
+2018.10.29, v9.0.1
+
+fix:
+- docs(ChangeLog) rm 
+
+feature:
+- (package) codemirror v5.41.0
+
+
+2018.10.25, v9.0.0
+
+feature:
+- (dword) split prefix to: prefix and prefixSocket
+
+
+2018.10.24, v8.0.8
+
+feature:
+- (package) join-io v3.0.1
+
+
+2018.10.23, v8.0.7
+
+fix:
+- (client) message on error
+
+
+2018.10.22, v8.0.6
+
+feature:
+- (dword) emitify: bower -> npm
+
+
+2018.10.22, v8.0.5
+
+fix:
+- (babelrc) regenerator runtime
+
+
+2018.10.18, v8.0.4
+
+fix:
+- (package) build:client:dev
+
+feature:
+- (package) jssha: bower -> npm
+- (dword) save: callback -> async
+
+
+2018.10.17, v8.0.3
+
+feature:
+- (package) socket-file v3.0.1
+- (package) rm unused patchfile
+
+
+2018.10.16, v8.0.2
+
+feature:
+- (package) restafary v5.0.0
+
+
+2018.10.09, v8.0.1
+
+feature:
+- (package) currify v3.0.0
+- (package) add build:start, build:start:dev
+
+
+2018.09.26, v8.0.0
+
+feature:
+- (package) drop suport of node < 8
+- (package) restafary v4.0.0
+
+
+2018.09.20, v7.0.14
+
+feature:
+- (package) codemirror v5.40.2
+- (show-message) mv out from dword
+
+
+2018.09.18, v7.0.13
+
+feature:
+- (package) load.js v2.0.0
+- (package) style-loader v0.23.0
+- (package) babel v7.0.0
+- (package) style-loader v0.22.0
+
+
+2018.07.23, v7.0.12
+
+feature:
+- (package) codemirror v5.39.2
+
+
+2018.07.16, v7.0.11
+
+feature:
+- (package) @cloudcmd/clipboard v1.0.2
+
+
+2018.07.10, v7.0.10
+
+feature:
+- (package) smalltalk v3.1.0
+- (package) css-loader v1.0.0
+- (package) cssnano v4.0.0
+- (package) eslint v5.0.0
+
+
+2018.06.22, v7.0.9
+
+feature:
+- (package) codemirror v5.39.0
+- (package) webpack-cli v3.0.1
+
+
+2018.05.24, v7.0.8
+
+feature:
+- (package) codemirror v5.38.0
+
+
+2018.05.22, v7.0.7
+
+feature:
+- (modules) socket.io v2.1.1
+
+
+2018.05.15, v7.0.6
+
+feature:
+- (package) add @cloudcmd/clipboard
+
+
+2018.05.03, v7.0.5
+
+feature:
+- (package) clean-css-loader v1.0.1
+- (package) clean-css-loader v1.0.1
+
+
+2018.04.27, v7.0.4
+
+feature:
+- (package) smalltalk v3.0.0
+
+
+2018.04.23, v7.0.3
+
+feature:
+- (package) codemirror v5.37.0
+- (package) style-loader v0.21.0
+
+
+2018.04.02, v7.0.2
+
+feature:
+- (modules) socket.io v2.1.0
+
+
+2018.03.30, v7.0.1
+
+fix:
+- (modules) codemirror v5.36.0
+
+
+2018.03.30, v7.0.0
+
+feature:
+- (dword) socket-file v2.0.0: authCheck -> auth
+
+
+2018.03.21, v6.1.7
+
+fix:
+- (package) cp:codemirror:dist
+
+feature:
+- (dword) os-homedir -> os.homedir
+
+
+2018.03.21, v6.1.6
+
+feature:
+- (package) codemirror v5.36.0
+
+
+2018.02.28, v6.1.5
+
+feature:
+- (package) webpack v4.0.1
+
+
+2018.02.21, v6.1.4
+
+feature:
+- (package) rollup v0.56.2
+- (package) codemirror v5.35.0
+
+
+2018.01.31, v6.1.3
+
+fix:
+- (set-key-map) add ability to use keyMaps other then vim
+
+
+2018.01.30, v6.1.2
+
+feature:
+- (package) codemirror v5.34.0
+- (package) rollup-plugin-uglify v3.0.0
+- (package) rollup v0.55.1
+- (package) style-loader v0.20.1
+- (package) rollup-plugin-postcss v1.2.1
+- (package) rollup v0.54.0
+- (package) rollup v0.53.0
+
+
+2017.12.22, v6.1.1
+
+feature:
+- (package) codemirror v5.33.0
+
+
+2017.12.08, v6.1.0
+
+feature:
+- (dword) vim: add ability to save file with :w command
+- (package) rollup v0.52.1
+
+
+2017.11.22, v6.0.11
+
+feature:
+- (package) add load.js
+- (package) codemirror v5.32.0
+- (package) rollup-plugin-buble v0.18.0
+
+
+2017.11.10, v6.0.10
+
+feature:
+- (dword) addCommands: wraptile
+- (package) rollup v0.51.3
+- (package) rollup-plugin-buble v0.17.0
+
+
+2017.10.23, v6.0.9
+
+feature:
+- (package) codemirror v5.31.0
+
+
+2017.10.19, v6.0.8
+
+feature:
+- (bower) smalltalk v2.5.1
+
+
+2017.10.09, v6.0.7
+
+feature:
+- (bower) smalltalk v2.5.0
+
+
+2017.10.06, v6.0.6
+
+fix:
+- feature(server) serve: options -> dword: prefix
+
+feature:
+- (server) serve: options -> dword: prefix
+- (package) style-loader v0.19.0
+- (package) rm babel-preset-es2015-rollup
+- (package) rollup-plugin-buble v0.16.0
+
+
+2017.09.22, v6.0.5
+
+feature:
+- (bower) smalltalk v2.4.2
+- (package) rollup v0.50.0
+- (package) rollup v0.50.0
+
+
+2017.09.20, v6.0.4
+
+feature:
+- (package) codemirror v5.30.0
+
+
+2017.08.28, v6.0.3
+
+feature:
+- (gitignore) add yarn-error.log
+- (package) rollup v0.49.0
+- (package) codemirror v5.29.0
+- (package) rollup v0.47.6
+- (package) rollup-plugin-babel v3.0.1
+
+
+2017.07.24, v6.0.2
+
+feature:
+- (package) codemirror v5.28.0
+
+
+2017.07.14, v6.0.1
+
+fix:
+- (server) restafary/legacy -> restafary
+
+
+2017.07.14, v6.0.0
+
+feature:
+- (package) socket.io v2.0.3
+- (package) join-io v2.0.0
+- (package) restafary v3.0.0
+- (dword) drop support of node versions < 4
+
+
+2017.07.14, v5.0.8
+
+fix:
+- (dword) socket.io: support of node < 4
+
+
+2017.07.14, v5.0.7
+
+fix:
+- (dword) node version < 4 support
+
+
+2017.07.14, v5.0.6
+
+feature:
+- (package) restafary v3.0.0
+
+
+2017.07.13, v5.0.5
+
+feature:
+- (package) join-io v2.0.0
+
+
+2017.07.12, v5.0.4
+
+fix:
+- (index) node v4 support
+
+
+2017.07.12, v5.0.3
+
+fix:
+- (index) node v4 support
+- (index) node v4 support
+
+feature:
+- (package) rollup v0.45.0
+
+
+2017.07.10, v5.0.2
+
+feature:
+- (bower) smalltalk v2.4.1
+
+
+2017.07.10, v5.0.1
+
+feature:
+- (bower) cm-show-invisibles v2.0.2
+
+
+2017.07.05, v5.0.0
+
+feature:
+- (dword) add execon from npm
+- (dword) add zipio from npm
+- (dword) daffy: add from npm
+- (dword) rm minify
+
+
+2017.07.03, v4.3.5
+
+feature:
+- (package) rm unused bower, bupdate
+- (package) add wraptile
+- (package) codemirror v5.27.4
+
+
+2017.06.26, v4.3.4
+
+feature:
+- (package) codemirror v5.27.2
+
+
+2017.06.22, v4.3.3
+
+feature:
+- (package) codemirror v5.27.0
+- (package) webpack v3.0.0
+
+
+2017.06.15, v4.3.2
+
+feature:
+- (bower) cm-show-invisibles v2.0.1
+
+
+2017.06.14, v4.3.1
+
+feature:
+- (modules) socket.io v2.0.3
+- (package) rollup v0.43.0
+- (package) eslint v4.0.0
+- (modules) socket.io v2.0.2
+
+
+2017.06.08, v4.3.0
+
+feature:
+- (client) mv codemirror plugins to codemirror
+- (client) add story
+- (package) scripts: start:dev
+- (dword) add webpack
+- (package) rollup v0.42.0
+- (package) add lint
+
+
+2017.05.23, v4.2.3
+
+feature:
+- (bower) smalltalk v2.4.0
+
+
+2017.05.22, v4.2.2
+
+feature:
+- (server) storage -> fullstore
+
+
+2017.05.22, v4.2.1
+
+feature:
+- (package) codemirror v5.26.0
+- (package) rollup-plugin-uglify v2.0.1
+- (package) rollup-plugin-postcss v0.5.0
+
+
+2017.05.18, v4.2.0
+
+feature:
+- (dword) setOption: preventOwerwrite options when set before load
+
+
+2017.05.17, v4.1.18
+
+feature:
+- (bower) cm-searchbox v1.0.8
+- (dword) online false by default
+
+
+2017.05.17, v4.1.17
+
+fix:
+- (dword) getModulePath: emitify
+
+feature:
+- (bower) emitify v3.1.0
+
+
+2017.05.17, v4.1.16
+
+feature:
+- (bower) smalltalk v2.3.1
+
+
+2017.05.16, v4.1.15
+
+feature:
+- (bower) smalltalk v2.2.2
+
+
+2017.05.16, v4.1.14
+
+fix:
+- (modules) socket.io remote url
+
+feature:
+- (gitignore) add *.swp
+- (dword) preload vim keybinding
+
+
+2017.05.10, v4.1.13
+
+feature:
+- (bower) smalltalk v2.2.1
+
+
+2017.05.10, v4.1.12
+
+feature:
+- (package) socket.io v2.0.1
+
+
+2017.05.07, v4.1.11
+
+fix:
+- (modules) codemirror v5.25.2
+
+feature:
+- (modules) socket.io v1.7.4
+
+
+2017.04.28, v4.1.10
+
+feature:
+- (bower) emitify v3.0.2
+
+
+2017.04.28, v4.1.9
+
+feature:
+- (bower) emitify v3.0.1
+
+
+2017.04.21, v4.1.8
+
+feature:
+- (package) codemirror v5.25.2
+- (package) rollup-plugin-postcss v0.4.1
+- (package) rollup-plugin-node-resolve v3.0.0
+- (package) rollup-plugin-commonjs v8.0.2
+
+
+2017.03.20, v4.1.7
+
+feature:
+- (package) codemirror v5.25.0
+
+
+2017.02.24, v4.1.6
+
+feature:
+- (bower) smalltalk v2.2.0
+- (package) codemirror v5.24.2
+
+
+2017.02.23, v4.1.5
+
+feature:
+- (bower) smalltalk v2.1.4
+
+
+2017.02.21, v4.1.4
+
+fix:
+- (npmignore) jsSHA: rm
+
+
+2017.02.21, v4.1.3
+
+feature:
+- (package) codemirror v5.24.0
+
+
+2017.01.20, v4.1.2
+
+feature:
+- (package) codemirror v5.23.0
+- (package) rollup v0.41.4
+
+
+2017.01.17, v4.1.1
+
+feature:
+- (package) restafary v2.0.0
+- (package) rollup v0.40.2
+- (package) rollup-plugin-commonjs v7.0.0
+
+
+2016.12.29, v4.1.0
+
+feature:
+- (dword) add isKey, enableKey, disableKey
+- (package) rollup v0.38.0
+
+
+2016.12.22, v4.0.9
+
+fix:
+- (package) build: buble -> babel
+- (package) babel-cli v6.18.0
+
+
+2016.12.22, v4.0.8
+
+feature:
+- (package) codemirror v5.22.0
+- (package) rollup-plugin-commonjs v6.0.0
+- (package) rollup-plugin-buble v0.15.0
+- (package) rollup v0.37.0
+- (package) babel-preset-es2015-rollup v3.0.0
+
+
+2016.12.09, v4.0.7
+
+feature:
+- (package) ~ -> ^
+- (package) restafary v1.7.0
+
+
+2016.11.24, v4.0.6
+
+feature:
+- (package) codemirror v5.21.0
+
+
+2016.11.23, v4.0.5
+
+feature:
+- (package) currify v2.0.0
+
+
+2016.10.25, v4.0.4
+
+feature:
+- (package) keywords
+- (package) rm promise-polyfill
+- (package) rm es6-promisify
+
+
+2016.10.24, v4.0.3
+
+feature:
+- (package) codemirror v5.20.2
+- (jshintrc) esversion: 6
+- (index) serve: regexp -> strict equal
+
+
+2016.10.24, v4.0.2
+
+feature:
+- (dword) es2015-ify: template string
+
+
+2016.10.22, v4.0.1
+
+feature:
+- (server) rm monaco
+- (npmignore) exclude jshintrc
+- (dword) es2015-ify
+- (package) rm try-catch
+- (package) add buble support
+
+
+2016.10.21, v4.0.0
+
+feature:
+- (npmignore) exclude jshintrc
+- (dword) es2015-ify
+- (package) rm try-catch
+- (package) add buble support
+
+
+2016.10.20, v3.2.14
+
+feature:
+- (bower) codemirror v5.20.0
+
+
+2016.10.08, v3.2.13
+
+fix:
+- (server) Root
+
+
+2016.10.08, v3.2.12
+
+feature:
+- (package) socket.io v1.5.0
+
+
+2016.10.06, v3.2.11
+
+fix:
+- (dword) syntax eror: ',' -> ';'
+
+
+2016.10.04, v3.2.10
+
+feature:
+- (bower) smalltalk v2.1.3
+
+
+2016.09.23, v3.2.9
+
+feature:
+- (modules) pako v1.0.3
+
+
+2016.09.23, v3.2.8
+
+feature:
+- (modules) socket.io v1.4.8
+
+
+2016.09.21, v3.2.7
+
+feature:
+- (bower) codemirror v5.19.0
+
+
+2016.08.30, v3.2.6
+
+feature:
+- (bower) cm-show-invisibles v1.2.1
+
+
+2016.08.29, v3.2.5
+
+feature:
+- (bower) codemirror v5.18.2
+
+
+2016.08.08, v3.2.4
+
+feature:
+- (bower) smalltalk v2.1.2
+
+
+2016.07.25, v3.2.3
+
+feature:
+- (bower) smalltalk v2.1.1
+
+
+2016.07.21, v3.2.2
+
+feature:
+- (bower) smalltalk v2.1.0
+
+
+2016.07.20, v3.2.1
+
+feature:
+- (bower) codemirror v5.17.0
+
+
+2016.07.18, v3.2.0
+
+feature:
+- (dword) add reject
+
+
+2016.07.15, v3.1.1
+
+feature:
+- (bower) smalltalk v2.0.0
+
+
+2016.07.14, v3.1.0
+
+feature:
+- (client) auth
+- (bower) emitify v2.1.1
+- (dword) add authCheck
+
+
+2016.06.21, v3.0.16
+
+feature:
+- (bower) codemirror v5.16.0
+
+
+2016.06.17, v3.0.15
+
+feature:
+- (package) express v4.14.0
+- (package) bupdate v1.1.0
+
+
+2016.06.03, v3.0.14
+
+feature:
+- (bower) emitify v2.1.0
+
+
+2016.05.24, v3.0.13
+
+feature:
+- (bower) codemirror v5.15.2
+
+
+2016.05.16, v3.0.12
+
+feature:
+- (bower) jsSHA v2.1.0
+
+
+2016.05.11, v3.0.11
+
+feature:
+- (bower) smalltalk v1.6.8
+
+
+2016.04.28, v3.0.10
+
+feature:
+- (bower) codemirror v5.14.2
+
+
+2016.04.18, v3.0.9
+
+feature:
+- (bower) codemirror v5.13.4
+
+
+2016.03.28, v3.0.8
+
+fix:
+- (client) linenumbers overlap
+- (client) setModeForPath: matchTags enabled only on HTML
+
+
+2016.03.24, v3.0.7
+
+fix:
+- (client) content on lineNumbers: autoRefresh
+
+
+2016.03.21, v3.0.6
+
+feature:
+- (bower) codemirror v5.13
+
+
+2016.03.21, v3.0.5
+
+feature:
+- (bower) smalltalk v1.6.7
+
+
+2016.03.15, v3.0.4
+
+fix:
+- (client) evaluate: dword.focus -> focus
+
+
+2016.03.07, v3.0.3
+
+feature:
+- (client) dword -> init
+
+
+2016.03.07, v3.0.2
+
+fix:
+- (client) _patch, _write: mv to constructor, replace prototype when overwriting
+
+
+2016.03.07, v3.0.1
+
+fix:
+- (client) _showMessageOnce
+- (dword) onDrop, onDragOver
+
+
+2016.03.05, v3.0.0
+
+feature:
+- (client) add ability to use a couple instances on a page
+
+
+2016.03.01, v2.9.4
+
+feature:
+- (bower) smalltalk v1.6.6
+
+
+2016.02.21, v2.9.3
+
+feature:
+- (bower) codemirror v5.12.0
+
+
+2016.02.20, v2.9.2
+
+feature:
+- (package) restafary v1.6.0
+
+
+2016.02.19, v2.9.1
+
+feature:
+- (bower) cm-show-invisibles v1.2.0
+
+
+2016.02.01, v2.9.0
+
+feature:
+- (client) options: add socketPath
+- (bower) loadremote v1.2.0
+
+
+2016.01.28, v2.8.4
+
+feature:
+- (modules) socket.io v1.4.5
+
+
+2016.01.26, v2.8.3
+
+feature:
+- (bower) codemirror v5.11.0
+
+
+2016.01.25, v2.8.2
+
+fix:
+- (client) double socket.on
+
+
+2016.01.25, v2.8.1
+
+fix:
+- (dword) set value before dword load
+
+
+2016.01.14, v2.8.0
+
+feature:
+- (client) add cutToClipboard, copyToClipboard, pasteFromClipboard
+
+
+2016.01.10, v2.7.5
+
+feature:
+- (bower) smalltalk v1.6.5
+
+
+2016.01.10, v2.7.4
+
+feature:
+- (package) socket.io v1.4.3
+
+
+2015.12.29, v2.7.3
+
+feature:
+- (bower) emitify v2.0.0
+
+
+2015.12.26, v2.7.2
+
+feature:
+- (bower) codemirror v5.10.0
+
+
+2015.12.09, v2.7.1
+
+feature:
+- (bower) smalltalk v1.6.4
+
+
+2015.12.08, v2.7.0
+
+feature:
+- (dword) add refresh
+
+
+2015.12.05, v2.6.2
+
+feature:
+- (bower) smalltalk v1.6.3
+
+
+2015.12.05, v2.6.1
+
+feature:
+- (bower) smalltalk v1.6.2
+
+
+2015.12.01, v2.6.0
+
+feature:
+- (client) add keyMap support
+
+
+2015.11.23, v2.5.2
+
+feature:
+- (modules) pako v0.2.8
+- (bower) codemirror v5.9.0
+
+
+2015.11.06, v2.5.1
+
+fix:
+- (server) readEdit: data = replace() => replace()
+
+
+2015.11.06, v2.5.0
+
+feature:
+- (client) add Ctrl-E: JavaScript evaluation
+
+
+2015.11.02, v2.4.11
+
+feature:
+- (bower) smalltalk v1.6.1
+
+
+2015.11.02, v2.4.10
+
+feature:
+- (bower) smalltalk v1.6.0
+
+
+2015.10.30, v2.4.9
+
+feature:
+- (ext) json: add .babelrc
+
+
+2015.10.29, v2.4.8
+
+feature:
+- (bower) smalltalk v1.5.6
+
+
+2015.10.28, v2.4.7
+
+fix:
+- (server) readEdit
+
+
+2015.10.27, v2.4.6
+
+feature:
+- (server) copy: desctructive -> clean
+
+
+2015.10.27, v2.4.5
+
+fix:
+- (server) serve: jshin
+
+
+2015.10.27, v2.4.4
+
+fix:
+- (client) setModeForPath: name -> path
+
+
+2015.10.26, v2.4.3
+
+feature:
+- (bower) smalltalk v1.5.5
+
+
+2015.10.24, v2.4.2
+
+feature:
+- (bower) codemirror v5.8.0
+
+
+2015.10.21, v2.4.1
+
+feature:
+- (dword) execon v1.2.8
+
+
+2015.10.05, v2.4.0
+
+feature:
+- (client) rm scrollToLine
+- (dword) getCursor():  line -> row, ch -> column
+
+
+2015.10.01, v2.3.8
+
+feature:
+- (bower) loadremote v1.1.1
+
+
+2015.10.01, v2.3.7
+
+feature:
+- (bower) loadremote v1.1.0
+
+
+2015.10.01, v2.3.6
+
+feature:
+- (bower) execon v1.2.7
+
+
+2015.10.01, v2.3.5
+
+feature:
+- (bower) execon v1.2.6
+
+
+2015.09.30, v2.3.4
+
+feature:
+- (modules) codemirror: .js, .css -> min.js, .min.css
+- (bower) codemirror v5.7.0
+
+
+2015.09.30, v2.3.3
+
+feature:
+- (bower) emitify v1.3.0
+
+
+2015.09.30, v2.3.2
+
+feature:
+- (bower) smalltalk v1.5.2
+
+
+2015.09.29, v2.3.1
+
+feature:
+- (bower) smalltalk v1.5.1
+
+
+2015.09.28, v2.3.0
+
+feature:
+- (dword) add smalltalk dialogs
+
+
+2015.09.26, v2.2.5
+
+fix:
+- (server) minify on restafary request
+
+
+2015.09.22, v2.2.4
+
+fix:
+- (server) sync -> sync.try
+
+
+2015.09.21, v2.2.3
+
+feature:
+- (package) socket.io v1.3.7
+
+
+2015.09.18, v2.2.2
+
+fix:
+- (server) .jshintrc path
+
+
+2015.09.18, v2.2.1
+
+fix:
+- (server) rm try-catch
+
+
+2015.09.18, v2.2.0
+
+feature:
+- (dword) add ability to override jshint config
+
+
+2015.09.18, v2.1.0
+
+feature:
+- (client) go to line: ctrl + l -> ctrl + g
+
+
+2015.09.09, v2.0.4
+
+feature:
+- (bower) jshint v2.9.0
+
+
+2015.08.29, v2.0.3
+
+fix:
+- (server) rm memo
+
+
+2015.08.29, v2.0.2
+
+feature:
+- (dword) speed up routing with memo
+
+
+2015.08.29, v2.0.1
+
+fix:
+- (dword) restafary: root
+
+feature:
+- (package) bower v1.5.1
+
+
+2015.08.24, v2.0.0
+
+feature:
+- (dword) move restafary inside middleware
+- (package) restafary v1.5.0
+
+
+2015.08.21, v1.9.8
+
+feature:
+- (bower) codemirror v5.6.0
+
+
+2015.08.11, v1.9.7
+
+feature:
+- (package) restafary v1.4.0
+
+
+2015.07.23, v1.9.6
+
+feature:
+- (modules) codemirror v5.5.0
+
+
+2015.07.21, v1.9.5
+
+fix:
+- (client) loadStyles: unshift
+
+feature:
+- (bower) codemirror v5.5.0
+
+
+2015.07.21, v1.9.4
+
+feature:
+- (bower) execon v1.2.5
+
+
+2015.07.20, v1.9.3
+
+feature:
+- (modules) socket.io v1.3.6
+
+
+2015.07.13, v1.9.2
+
+fix:
+- (server) always return error -> when error.code === ENOENT -> ignore
+
+
+2015.07.12, v1.9.1
+
+fix:
+- (dword) load css event if default
+- (server) edward -> dword
+
+
+2015.07.12, v1.9.0
+
+feature:
+- (dword) add ability to load edit options from ~/.dword.json
+
+
+2015.07.11, v1.8.1
+
+feature:
+- (modules) pako v0.2.7
+
+
+2015.07.10, v1.8.0
+
+feature:
+- (dword) add loadremote from bower
+
+
+2015.07.07, v1.7.8
+
+feature:
+- (client) loadFiles: push -> filter, map
+
+
+2015.07.07, v1.7.7
+
+feature:
+- (client) load loadRemote only when it is not loaded before
+
+
+2015.07.06, v1.7.6
+
+feature:
+- (bower) codemirror v5.4.0
+
+
+2015.06.30, v1.7.5
+
+fix:
+- (client) jsSHA
+
+
+2015.06.29, v1.7.4
+
+feature:
+- (bower) jsSHA v2.0.1
+
+
+2015.06.26, v1.7.3
+
+feature:
+- (package) rm mellow
+
+
+2015.06.26, v1.7.2
+
+fix:
+- (dword) /dword -> PREFIX
+
+
+2015.06.22, v1.7.1
+
+feature:
+- (package) express v4.13.0
+
+
+2015.06.17, v1.7.0
+
+feature:
+- (edit) add fontSize
+
+
+2015.06.17, v1.6.0
+
+feature:
+- (client) setOption: add fontSize
+
+
+2015.06.16, v1.5.14
+
+feature:
+- (bower) emitify v1.2.0
+
+
+2015.06.04, v1.5.13
+
+feature:
+- (bower) jshint v2.8.0
+
+
+2015.06.04, v1.5.12
+
+feature:
+- (package) join-io v1.4.0
+
+
+2015.06.03, v1.5.11
+
+feature:
+- (bower) execon v1.2.0
+
+
+2015.05.29, v1.5.10
+
+fix:
+- (loadRemote) pre overwrite
+
+
+2015.05.28, v1.5.9
+
+fix:
+- (dword) loadFiles if: "," -> ";"
+
+
+2015.05.25, v1.5.8
+
+fix:
+- (client) onDragOver: Mac OS
+
+
+2015.05.22, v1.5.7
+
+feature:
+- (bower) codemirror v5.3.0
+
+
+2015.05.21, v1.5.6
+
+feature:
+- (rendy) v1.1.0
+
+
+2015.05.15, v1.5.5
+
+feature:
+- (package) restafary v1.3.0
+
+
+2015.05.14, v1.5.4
+
+feature:
+- (package) socket-file v1.2.0
+
+
+2015.05.14, v1.5.3
+
+fix:
+- (dword) remove
+
+
+2015.05.13, v1.5.2
+
+feature:
+- (modules) codemirror v5.2.0
+- (package) scripts: add bower
+
+
+2015.04.24, v1.5.1
+
+feature:
+- (bower) jshint v2.7.0
+
+
+2015.04.17, v1.5.0
+
+feature:
+- (dword) rm clearSelection
+- (dword) coderaiser -> cloudcmd
+
+
+2015.04.08, v1.4.2
+
+feature:
+- (package) restafary v1.2.8
+
+
+2015.04.07, v1.4.1
+
+feature:
+- (package) socket-file v1.1.0
+
+
+2015.04.07, v1.4.0
+
+feature:
+- (server) add root
+- (package) mellow v1.3.0
+
+
+2015.04.07, v1.3.15
+
+feature:
+- (package) mellow v1.1.0
+
+
+2015.03.28, v1.3.14
+
+feature:
+- (bower) codemirror v5.1.0
+
+
+2015.03.27, v1.3.13
+
+feature:
+- (package) scripts: rm postinstall
+
+
+2015.03.27, v1.3.12
+
+fix:
+- (dword) getPath: broken name
+
+feature:
+- (modules) add
+
+
+2015.03.20, v1.3.11
+
+feature:
+- (bower) jsSHA v1.6.0
+
+
+2015.03.19, v1.3.10
+
+feature:
+- (client) add lineWrapping
+
+
+2015.03.18, v1.3.9
+
+feature:
+- (package) socket.io v1.3.5
+
+
+2015.03.10, v1.3.8
+
+feature:
+- (ext) json: add .yaspellerrc
+
+
+2015.03.05, v1.3.7
+
+feature:
+- (package) rm bower
+
+
+2015.03.04, v1.3.6
+
+fix:
+- (dword) z-index: 1 -> 2
+
+
+2015.03.04, v1.3.5
+
+fix:
+- (dword) rm path
+
+
+2015.03.04, v1.3.4
+
+feature:
+- (bowerrc) add strict-ssl: false
+
+
+2015.03.04, v1.3.3
+
+feature:
+- (package) add bower postinstall
+
+
+2015.03.04, v1.3.2
+
+fix:
+- (modules) add cm-searchbox
+
+
+2015.03.04, v1.3.1
+
+feature:
+- (bower) add cm-searchbox
+
+
+2015.03.03, v1.3.0
+
+fix:
+- (loadremote) global[name] -> name && global[name]
+
+feature:
+- (searchbox) add
+
+
+2015.03.02, v1.2.5
+
+feature:
+- (bower) cm-show-invisibles v1.1.3
+
+
+2015.03.02, v1.2.4
+
+feature:
+- (bower) cm-show-invisibles v1.1.2
+
+
+2015.03.02, v1.2.3
+
+feature:
+- (bower) cm-show-invisibles v1.1.1
+- (go-to-line) rm
+
+
+2015.03.02, v1.2.2
+
+feature:
+- (client) goToLine: change the way dialog showing
+
+
+2015.02.27, v1.2.1
+
+fix:
+- (client) isChanged when file has "\r\n" ending of lines Dword always say that file is changed
+- (client) rm yaml, coffeescript - not supported
+
+feature:
+- (client) maxInvisibles: 32
+- (codemirror) meta: add ext "yml"
+
+
+2015.02.27, v1.2.0
+
+feature:
+- (client) goToLine: Ctrl-g -> Ctrl-l
+
+
+2015.02.27, v1.1.12
+
+feature:
+- (bower) cm-show-invisibles v1.1.0
+
+
+2015.02.26, v1.1.11
+
+feature:
+- (dword) rm css-lint: not supported
+- (show-invisibles) add from bower
+
+
+2015.02.26, v1.1.10
+
+feature:
+- (client) add showInvisibles
+- (client) add toggleComment on Ctrl + /
+
+
+2015.02.26, v1.1.9
+
+feature:
+- (client) setOption: gutters, at init
+- (client) add matchbrackers, matchtags
+
+
+2015.02.25, v1.1.8
+
+fix:
+- (lint) startLinging, onChange: state could be undefined
+- (client) setModeForPath: when not in list - lint false
+
+
+2015.02.25, v1.1.7
+
+fix:
+- (client) onSave: error always present
+
+
+2015.02.25, v1.1.6
+
+feature:
+- (client) onSave: show error.message when exist
+
+
+2015.02.24, v1.1.5
+
+fix:
+- (client) onSave: restafary.write used without callback
+
+feature:
+- (client) onSave: change message
+
+
+2015.02.24, v1.1.4
+
+feature:
+- (bower) codemirror v5.0.0
+- (goToLine) add
+
+
+2015.02.24, v1.1.3
+
+feature:
+- (dword) add goToLine
+
+
+2015.02.24, v1.1.2
+
+fix:
+- (client) setOption("extraKeys") -> addKeyMap
+
+
+2015.02.24, v1.1.1
+
+fix:
+- (dword) lint support
+
+feature:
+- (bower) emitify v1.1.2
+
+
+2015.02.24, v1.1.0
+
+fix:
+- (dword) setMode: when json jshint still works
+
+feature:
+- (client) add change emitter
+- (package) express v4.12
+
+
+2015.02.23, v1.0.3
+
+fix:
+- (dword) getCursor
+
+
+2015.02.23, v1.0.2
+
+feature:
+- (dword) when mode json -> set javascript
+
+
+2015.02.23, v1.0.1
+
+feature:
+- (package) add socket-file
+
+
+2015.02.23, v1.0.0
+
+feature:
+- (dword) add jshint support
+
+
+2015.02.23, v0.7.1
+
+feature:
+- (client) add autoCloseBrackets
+
+
+2015.02.23, v0.7.0
+
+fix:
+- (client) setValueFirst: undo when first set value
+
+feature:
+- (dword) add shift-tab
+
+
+2015.02.23, v0.6.0
+
+fix:
+- (dword) read file from process.cwd path
+
+feature:
+- (dword) set options from json/edit.json
+- (dword) add useSoftTabs
+- (package) v0.5.4
+
+
+2015.02.23, v0.5.4
+
+fix:
+- (dword) read file from process.cwd path
+
+feature:
+- (dword) add lint
+
+
+2015.02.20, v0.5.3
+
+feature:
+- (client) add overlay
+
+
+2015.02.20, v0.5.2
+
+fix:
+- (index) edward -> dword
+
+feature:
+- (style) add font
+
+
+2015.02.20, v0.5.1
+
+feature:
+- (emmet) add
+
+
+2015.02.20, v0.5.0
+
+feature:
+- (showTrailing) add
+- (emmet) rm
+
+
+2015.02.20, v0.4.1
+
+feature:
+- (client) setValueFirst: add FileName, Value
+
+
+2015.02.20, v0.4.0
+
+feature:
+- (dword) add search bar
+
+
+2015.02.20, v0.3.2
+
+feature:
+- (img) add
+
+
+2015.02.20, v0.3.1
+
+feature:
+- (dword) add css
+
+
+2015.02.20, v0.3.0
+
+feature:
+- (dword) add loadMode
+- (dword) edward -> dword
+- (dword) edward -> dword
+
+
+2015.02.20, v0.2.0
+
+feature:
+- (edward) add .CodeMirror: height
+- (dword) set theme "pastel-on-dark"
+- (client) add line numbers
+- (index) edo -> dword
+- (dword) edo -> dword
+- (dword) edo -> dword
+- (dword) cloudcmd -> coderaiser
+- (package) v0.1.1
+
+
+2015.02.19, v0.1.1
+
+feature:
+- (socket) edward -> dword
+

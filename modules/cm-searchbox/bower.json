@@ -1,0 +1,26 @@
+{
+  "name": "cm-searchbox",
+  "homepage": "https://github.com/coderaiser/cm-searchbox",
+  "authors": [
+    "coderaiser <mnemonic.enemy@gmail.com>"
+  ],
+  "description": "CodeMirror searchbox",
+  "main": "lib/searchbox.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "codemirror",
+    "searchbox"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

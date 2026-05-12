@@ -1,0 +1,107 @@
+{
+  "name": "qword",
+  "version": "1.0.0",
+  "description": "Web editor based on CodeMirror",
+  "main": "./server/index.js",
+  "exports": "./server/index.js",
+  "type": "module",
+  "bin": {
+    "qword": "bin/qword.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "madrun start",
+    "start:dev": "madrun start:dev",
+    "lint": "madrun lint",
+    "test": "madrun test",
+    "coverage": "madrun coverage",
+    "fresh:lint": "madrun fresh:lint",
+    "lint:fresh": "madrun lint:fresh",
+    "fix:lint": "madrun fix:lint",
+    "build-progress": "madrun build-progress",
+    "build:client": "madrun build:client",
+    "build:client:dev": "madrun build:client:dev",
+    "build:start": "madrun build:start",
+    "build:start:dev": "madrun build:start:dev",
+    "cp:codemirror:modules": "madrun cp:codemirror:modules",
+    "build-progress:codemirror": "madrun build-progress:codemirror",
+    "build:codemirror:dev": "madrun build:codemirror:dev",
+    "build:codemirror": "madrun build:codemirror",
+    "watch:server": "madrun watch:server",
+    "watch:client": "madrun watch:client",
+    "watch": "madrun watch",
+    "build": "madrun build",
+    "wisdom": "madrun wisdom",
+    "rm:dist": "madrun rm:dist",
+    "rm:dist-dev": "madrun rm:dist-dev"
+  },
+  "dependencies": {
+    "currify": "^4.0.0",
+    "express": "^5.2.1",
+    "join-io": "^5.0.0",
+    "readjson": "^2.0.1",
+    "restafary": "^13.0.1",
+    "restbox": "^4.0.1",
+    "socket-file": "^8.0.0",
+    "socket.io": "^4.0.0",
+    "try-to-catch": "^4.0.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@cloudcmd/clipboard": "^2.0.0",
+    "@cloudcmd/create-element": "^2.0.2",
+    "@putout/eslint-flat": "^4.0.0",
+    "babel-loader": "^10.0.0",
+    "callbackify": "^1.1.0",
+    "clean-css-loader": "^4.1.1",
+    "codemirror": "^5.0.0",
+    "css-loader": "^7.1.3",
+    "cssnano": "^7.1.2",
+    "daffy": "^1.0.3",
+    "emitify": "^4.0.1",
+    "es6-promisify": "^7.0.0",
+    "eslint": "^10.3.0",
+    "eslint-plugin-putout": "^31.1.3",
+    "execon": "^1.2.9",
+    "jssha": "^3.1.0",
+    "load.js": "^3.0.2",
+    "madrun": "^13.0.1",
+    "nodemon": "^3.0.1",
+    "once": "^1.4.0",
+    "putout": "^42.5.0",
+    "rimraf": "^6.1.2",
+    "smalltalk": "^5.0.0",
+    "style-loader": "^4.0.0",
+    "url-loader": "^4.0.0",
+    "webpack": "^5.1.3",
+    "webpack-cli": "^7.0.2",
+    "wraptile": "^3.0.0",
+    "zipio": "^1.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloudcmd/qword"
+  },
+  "keywords": [
+    "editor",
+    "express",
+    "middleware",
+    "monaco",
+    "patch",
+    "diff",
+    "ide",
+    "text"
+  ],
+  "author": "coderaiser",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cloudcmd/qword/issues"
+  },
+  "homepage": "https://github.com/cloudcmd/qword",
+  "publishConfig": {
+    "access": "public"
+  }
+}

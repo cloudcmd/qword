@@ -1,0 +1,36 @@
+{
+  "name": "cm-show-invisibles",
+  "homepage": "https://github.com/coderaiser/cm-show-invisibles",
+  "authors": [
+    "coderaiser <mnemonic.enemy@gmail.com>"
+  ],
+  "description": "addon for CodeMirror that helps to show invisibles",
+  "main": "lib/show-invisibles.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "codemirror",
+    "invisibles",
+    "addon"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "img",
+    ".*"
+  ],
+  "version": "3.1.0",
+  "_release": "3.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v3.1.0",
+    "commit": "2c523300ef8bbdbf443be7dd862739e2ce1d43c7"
+  },
+  "_source": "https://github.com/coderaiser/cm-show-invisibles.git",
+  "_target": "^3.1.0",
+  "_originalSource": "cm-show-invisibles",
+  "_direct": true
+}

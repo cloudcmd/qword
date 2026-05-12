@@ -1,0 +1,14 @@
+{
+    "match": {
+        "client": {
+            "nodejs/declare": "off"
+        },
+        "client/dword.js": {
+            "remove-console": "off"
+        }
+    },
+    "ignore": [
+        "modules",
+        "codemirror"
+    ]
+}

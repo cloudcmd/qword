@@ -1,0 +1,22 @@
+[{
+    "name": "socket",
+    "version": "4.0.0",
+    "local": "/socket.io/socket.io.js",
+    "remote": "//cdnjs.cloudflare.com/ajax/libs/socket.io/{{ version }}/socket.io.js"
+}, {
+    "name": "codemirror",
+    "version": "5.65.16",
+    "local": [
+        "/dist/codemirror.js",
+        "/modules/codemirror/lib/codemirror.css"
+    ],
+    "remote": [
+        "https://cdn.jsdelivr.net/npm/codemirror@{{ version }}/lib/codemirror.min.js",
+        "https://cdn.jsdelivr.net/npm/codemirror@{{ version }}/lib/codemirror.min.css"
+    ]
+}, {
+    "name": "pako",
+    "version": "1.0.3",
+    "local": "/modules/pako/dist/pako.min.js",
+    "remote": "//cdnjs.cloudflare.com/ajax/libs/pako/{{ version }}/pako.min.js"
+}]
