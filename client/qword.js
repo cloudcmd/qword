@@ -27,7 +27,6 @@ import save from './save.js';
 import _initSocket from './_init-socket.js';
 import _onSave from './_on-save.js';
 
-const noop = () => {};
 const isString = (a) => typeof a === 'string';
 
 export default function Qword(el, options, callback) {
@@ -47,7 +46,8 @@ export default function Qword(el, options, callback) {
 
     this._maxSize = options.maxSize || 512_000;
     this._PREFIX = options.prefix || '/qword';
-    this._prefixSocket = options.prefixSocket || '';
+    this._prefixSocket = options.prefixSocket || '/qword';
+    this._socketPath = options.socketPath || '';
 
     this._Emitter = Emitify();
     this._view = null;
@@ -72,7 +72,7 @@ Qword.prototype._init = async function() {
         loadModules(prefix),
     ]);
     await loadRemote('socket', {
-        prefix: this._prefixSocket,
+        prefix: this._socketPath,
     });
 
     restafary.prefix(`${this._PREFIX}/api/v1/fs`);

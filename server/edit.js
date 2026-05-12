@@ -10,14 +10,14 @@ const HOME = os.homedir();
 export default async (req, res, next) => {
     if (req.url !== '/edit.json')
         return next();
-
+    
     const [error, data] = await tryToCatch(readEdit);
-
+    
     if (error)
         return res
             .status(404)
             .send(error.message);
-
+    
     res.json(data);
 };
 
@@ -39,16 +39,16 @@ function copy(from) {
 async function readEdit() {
     const homePath = `${HOME}/.qword.json`;
     const data = copy(Edit);
-
+    
     const [error, edit] = await tryToCatch(readjson, homePath);
-
+    
     if (error && error.code !== 'ENOENT')
         throw Error(`qword --config ${homePath}: ${error.message}`);
-
+    
     if (!edit)
         return data;
-
+    
     replace(edit, data);
-
+    
     return data;
 }
