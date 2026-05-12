@@ -4,12 +4,12 @@ import once from 'once';
 
 const isString = (a) => typeof a === 'string';
 
-const loadModules = once(async (prefix) => {
+export const loadModules = once(async (prefix) => {
     const url = `${prefix}/modules.json`;
     return await load.json(url);
 });
 
-const loadOptions = once(async (prefix) => {
+export const loadOptions = once(async (prefix) => {
     const url = `${prefix}/options.json`;
     return await load.json(url);
 });

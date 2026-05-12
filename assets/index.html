@@ -6,17 +6,16 @@
     </head>
     <body>
         <div class="edit" data-name="js-edit"></div>
-        <script src="/dword/dword.js"></script>
+        <script src="/qword/qword.js"></script>
         <script>
-            /* global dword */
             window.addEventListener('DOMContentLoaded', function domLoad() {
-                dword('[data-name="js-edit"]', (editor) => {
+                globalThis.qword('[data-name="js-edit"]', (editor) => {
                     editor.setOptions({
                         fontSize: '16px',
                         fontFamily: 'Droid Sans Mono',
                     });
                 });
-                
+
                 window.removeEventListener('DOMContentLoaded', domLoad);
             });
         </script>

@@ -1,5 +1,5 @@
-import path, {dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import path, {dirname} from 'node:path';
 import process from 'node:process';
 import {restafary} from 'restafary';
 import restbox from 'restbox';
@@ -33,12 +33,12 @@ const cut = currify((prefix, req, res, next) => {
     next();
 });
 
-export const dword = currify((options) => {
+export const qword = currify((options) => {
     options = options || {};
     
     const router = Router();
     const {
-        prefix = '/dword',
+        prefix = '/qword',
         dropbox,
         dropboxToken,
         root,
@@ -69,13 +69,13 @@ export const dword = currify((options) => {
     return router;
 });
 
-dword.listen = (socket, options) => {
+qword.listen = (socket, options) => {
     options = options || {};
     
     const {
         root = '/',
         auth,
-        prefixSocket = '/dword',
+        prefixSocket = '/qword',
     } = options;
     
     return socketFile(socket, {
@@ -183,7 +183,7 @@ function staticFn(req, res) {
 }
 
 const dist = currify((prefix, req, res, next) => {
-    if (/^\/dword\.js(\.map)?$/.test(req.url))
+    if (/^\/qword\.js(\.map)?$/.test(req.url))
         req.url = `/dist${req.url}`;
     
     if (isDev)

@@ -1,717 +1,329 @@
-/* global CodeMirror, exec, join */
-import '../css/dword.css';
-import * as restafary from 'restafary/client';
-import wraptile from 'wraptile';
-import currify from 'currify';
-import {createPatch} from 'daffy';
+import '../css/qword.css';
+import {EditorState, Compartment} from '@codemirror/state';
+import {
+    EditorView,
+    keymap,
+    lineNumbers,
+    highlightActiveLine,
+} from '@codemirror/view';
+import {
+    history,
+    historyKeymap,
+    defaultKeymap,
+} from '@codemirror/commands';
+import {javascript} from '@codemirror/lang-javascript';
+import {json} from '@codemirror/lang-json';
+import {html} from '@codemirror/lang-html';
+import Emitify from 'emitify';
 import * as smalltalk from 'smalltalk';
 import jssha from 'jssha';
-import Emitify from 'emitify';
-import {tryToCatch} from 'try-to-catch';
-import exec from 'execon';
-import load from 'load.js';
+import {createPatch} from 'daffy';
+import * as restafary from 'restafary/client';
+import {tryCatch} from 'try-catch';
 import Story from './story.js';
-import setKeyMap from './set-key-map.js';
-import showMessage from './show-message.js';
-import loadRemote from './loadremote.js';
+import loadRemote, {loadModules, loadOptions} from './loadremote.js';
 import _clipboard from './_clipboard.js';
 import save from './save.js';
 import _initSocket from './_init-socket.js';
 import _onSave from './_on-save.js';
 
-const notGlobal = (name) => !window[name];
-const addPrefix = currify((obj, prefix, name) => prefix + obj[name]);
+const noop = () => {};
 const isString = (a) => typeof a === 'string';
 
-export default function Dword(el, options, callback) {
-    if (!(this instanceof Dword))
-        return new Dword(el, options, callback);
-    
+export default function Qword(el, options, callback) {
+    if (!(this instanceof Qword))
+        return new Qword(el, options, callback);
+
+    if (!callback)
+        callback = options;
+
     this._DIR = '/modules/';
-    this._TITLE = 'Dword';
+    this._TITLE = 'Qword';
     this._story = Story();
     this._Separator = '\n';
     this._isKey = true;
-    
-    if (!callback)
-        callback = options;
-    
-    if (isString(el))
-        el = document.querySelector(el);
-    
+
+    this._Element = isString(el) ? document.querySelector(el) : el || document.body;
+
     this._maxSize = options.maxSize || 512_000;
-    this._PREFIX = options.prefix || '/dword';
-    this._prefixSocket = options.prefixSocket || '/dword';
-    this._socketPath = options.socketPath || '';
-    
-    this._Element = el || document.body;
-    
-    const onDrop = this._onDrop.bind(this);
-    const onDragOver = this._onDragOver.bind(this);
-    
-    this._Element.addEventListener('drop', onDrop);
-    this._Element.addEventListener('dragover', onDragOver);
-    
-    this._init(() => {
-        callback(this);
-    });
-    
-    this._patch = (path, patch) => {
-        this._patchHttp(path, patch);
-    };
-    
-    this._write = (path, result) => {
-        this._writeHttp(path, result);
-    };
+    this._PREFIX = options.prefix || '/qword';
+    this._prefixSocket = options.prefixSocket || '';
+
+    this._Emitter = Emitify();
+    this._view = null;
+
+    this._modeCompartment = new Compartment();
+    this._keymapCompartment = new Compartment();
+    this._fontCompartment = new Compartment();
+
+    this._Element.addEventListener('drop', this._onDrop.bind(this));
+    this._Element.addEventListener('dragover', this._onDragOver.bind(this));
+
+    this
+        ._init()
+        .then(() => callback(this));
 }
 
-Dword.prototype.showMessage = showMessage;
+Qword.prototype._init = async function() {
+    const prefix = this._PREFIX;
 
-Dword.prototype.isKey = function() {
-    return this._isKey;
-};
-
-Dword.prototype.enableKey = function() {
-    this._isKey = true;
-    return this;
-};
-
-Dword.prototype.disableKey = function() {
-    this._isKey = false;
-    return this;
-};
-
-function empty() {}
-
-Dword.prototype._init = async function(fn) {
-    await loadFiles(this._PREFIX);
-    exec.series([
-        async (callback) => {
-            const [error, config] = await tryToCatch(load.json, this._PREFIX + '/edit.json');
-            
-            if (error)
-                return smalltalk.alert(this._TITLE, 'Could not load edit.json!');
-            
-            this._Config = config;
-            callback();
-        },
-        async (cb) => {
-            await this._loadFilesAll();
-            await this._loadStyles();
-            cb();
-        },
-        () => {
-            const {options} = this._Config;
-            const Value = this._Value;
-            
-            const all = {
-                autofocus: true,
-                autoRefresh: true,
-                lineNumbers: true,
-                showTrailing: true,
-                autoCloseBrackets: true,
-                matchBrackets: true,
-                matchTags: false,
-                gutters: ['CodeMirror-lint-markers'],
-                maxInvisibles: 32,
-                searchbox: true,
-                continueComments: true,
-                
-                highlightSelectionMatches: true,
-            };
-            
-            this._Emitter = Emitify();
-            this._Emitter.on('auth', (username, password) => {
-                this._socket.emit('auth', username, password);
-            });
-            
-            for (const name of Object.keys(options)) {
-                if (name === 'tabSize') {
-                    all.indentUnit = options.tabSize;
-                    continue;
-                }
-                
-                if (name === 'wrap') {
-                    all.lineWrapping = options.wrap;
-                    continue;
-                }
-                
-                all[name] = options[name];
-            }
-            
-            this._Ace = CodeMirror(this._Element, all);
-            CodeMirror.commands.save = this.save.bind(this);
-            
-            if (Value)
-                this._initValue(this._FileName, Value);
-            
-            this._Ace.on('change', () => {
-                this._Emitter.emit('change');
-            });
-            
-            addCommands(this);
-            
-            fn();
-            
-            this.setOptions(options);
-            this._initSocket();
-        },
+    await Promise.all([
+        loadOptions(prefix),
+        loadModules(prefix),
     ]);
-};
-
-function addCommands(dword) {
-    const call = (fn) => fn.call(dword);
-    const wrapCall = wraptile(call);
-    
-    const callIfKey = wraptile((fn) => {
-        dword.isKey() && call(fn);
+    await loadRemote('socket', {
+        prefix: this._prefixSocket,
     });
-    
-    const commands = {
-        'Ctrl-G': wrapCall(dword.goToLine),
-        'Ctrl-S': callIfKey(dword.save),
-        'F2': callIfKey(dword.save),
-        'Ctrl-E': callIfKey(dword.evaluate),
-        'Ctrl-/': 'toggleComment',
+
+    restafary.prefix(`${this._PREFIX}/api/v1/fs`);
+
+    this._initEditor();
+    this._initSocket();
+
+    return this;
+};
+
+Qword.prototype._initEditor = function() {
+    const extensions = [
+        lineNumbers(),
+        history(),
+        highlightActiveLine(),
+        this._modeCompartment.of(javascript()),
+        keymap.of([
+            ...defaultKeymap,
+            ...historyKeymap, {
+                key: 'Ctrl-s',
+                run: () => {
+                    if (this._isKey)
+                        this.save();
+
+                    return true;
+                },
+            },
+        ]),
+    ];
+
+    const state = EditorState.create({
+        doc: '',
+        extensions,
+    });
+
+    this._view = new EditorView({
+        state,
+        parent: this._Element,
+    });
+};
+
+Qword.prototype.getValue = function() {
+    return this._view.state.doc.toString();
+};
+
+Qword.prototype.setValue = function(value) {
+    this._view.dispatch({
+        changes: {
+            from: 0,
+            to: this._view.state.doc.length,
+            insert: value,
+        },
+    });
+
+    return this;
+};
+
+Qword.prototype.focus = function() {
+    this._view.focus();
+    return this;
+};
+
+Qword.prototype.getCursor = function() {
+    const pos = this._view.state.selection.main.head;
+    const line = this._view.state.doc.lineAt(pos);
+
+    return {
+        row: line.number - 1,
+        column: pos - line.from,
     };
-    
-    for (const name of Object.keys(commands)) {
-        if (name.startsWith('Ctrl')) {
-            const nameCmd = name.replace('Ctrl', 'Cmd');
-            commands[nameCmd] = commands[name];
-        }
-    }
-    
-    dword.addKeyMap(commands);
-}
+};
 
-Dword.prototype.evaluate = function() {
-    const focus = this.focus.bind(this);
-    const {_FileName, _TITLE} = this;
-    
-    const isJS = _FileName.endsWith('.js');
-    
-    let msg;
-    
-    if (!isJS) {
-        msg = 'Evaluation supported for JavaScript only';
-    } else {
-        const value = this.getValue();
-        msg = exec.try(Function(value));
-    }
-    
-    msg && smalltalk
-        .alert(_TITLE, msg)
-        .then(focus);
-    
+Qword.prototype.moveCursorTo = function(row, column = 0) {
+    const line = this._view.state.doc.line(row + 1);
+
+    this._view.dispatch({
+        selection: {
+            anchor: line.from + column,
+        },
+        scrollIntoView: true,
+    });
+
     return this;
 };
 
-Dword.prototype.addKeyMap = function(keyMap) {
-    this._Ace.addKeyMap(keyMap);
+Qword.prototype.remove = function(direction) {
+    const pos = this._view.state.selection.main.head;
+
+    this._view.dispatch({
+        changes: direction === 'right' ? {
+            from: pos,
+            to: pos + 1,
+        } : {
+            from: pos - 1,
+            to: pos,
+        },
+    });
+
     return this;
 };
 
-Dword.prototype.goToLine = function() {
-    const dword = this;
-    const Ace = this._Ace;
-    const msg = 'Enter line number:';
-    const cursor = dword.getCursor();
-    const number = cursor.row + 1;
-    
-    smalltalk
-        .prompt(this._TITLE, msg, number)
-        .then((line) => {
-            const ch = 0;
-            
-            Ace.setCursor({
-                line: line - 1,
-                ch,
-            });
-            
-            const myHeight = Ace.getScrollInfo().clientHeight;
-            const coords = Ace.charCoords({line, ch}, 'local');
-            
-            Ace.scrollTo(null, (coords.top + coords.bottom - myHeight) / 2);
-        })
-        .catch(empty)
-        .then(() => {
-            dword.focus();
-        });
-    
+Qword.prototype.setModeForPath = function(path) {
+    const ext = path
+        .split('.')
+        .pop();
+
+    let lang = javascript();
+
+    if (ext === 'json')
+        lang = json();
+
+    if (ext === 'html')
+        lang = html();
+
+    this._view.dispatch({
+        effects: this._modeCompartment.reconfigure(lang),
+    });
+
     return this;
 };
 
-Dword.prototype.moveCursorTo = function(row, column) {
-    this._Ace.setCursor(row, column);
+Qword.prototype.setValueFirst = function(name, value) {
+    this.setValue(value);
+
+    this._FileName = name;
+    this._Value = value;
+
+    this.moveCursorTo(0, 0);
+
     return this;
 };
 
-Dword.prototype.refresh = function() {
-    this._Ace.refresh();
+Qword.prototype.addKeyMap = function(map) {
+    const bindings = Object
+        .entries(map)
+        .map(([key, fn]) => ({
+            key,
+            run: () => {
+                fn.call(this);
+                return true;
+            },
+        }));
+
+    this._view.dispatch({
+        effects: this._keymapCompartment.reconfigure(keymap.of(bindings)),
+    });
+
     return this;
 };
 
-Dword.prototype.focus = function() {
-    this._Ace.focus();
-    return this;
-};
-
-Dword.prototype.remove = function(direction) {
-    const cmd = (direction) => {
-        if (direction === 'right')
-            return 'delCharAfter';
-        
-        return 'delCharBefore';
-    };
-    
-    this._Ace.execCommand(cmd(direction));
-    
-    return this;
-};
-
-Dword.prototype.getCursor = function() {
-    const {line, ch} = this._Ace.getCursor();
-    const cursor = {
-        row: line,
-        column: ch,
-    };
-    
-    return cursor;
-};
-
-Dword.prototype.getValue = function() {
-    return this._Ace.getValue();
-};
-
-Dword.prototype.on = function(event, fn) {
+Qword.prototype.on = function(event, fn) {
     this._Emitter.on(event, fn);
     return this;
 };
 
-Dword.prototype.once = function(event, fn) {
-    this._Emitter.once(event, fn);
-    return this;
-};
-
-Dword.prototype.emit = function(...args) {
+Qword.prototype.emit = function(...args) {
     this._Emitter.emit(...args);
     return this;
 };
 
-Dword.prototype.isChanged = function() {
-    const value = this._Ace.getValue(this._Separator);
-    const isEqual = value === this._Value;
-    
-    return !isEqual;
+Qword.prototype.isChanged = function() {
+    return this.getValue() !== this._Value;
 };
 
-Dword.prototype.setValue = function(value) {
-    this._Ace.setValue(value);
+Qword.prototype._diff = function(newValue) {
+    return createPatch(this._Value || '', newValue);
+};
+
+Qword.prototype._patchHttp = function(path, patch) {
+    restafary.patch(path, patch, this._onSave.bind(this));
+};
+
+Qword.prototype._writeHttp = function(path, result) {
+    restafary.write(path, result, this._onSave.bind(this));
+};
+
+Qword.prototype.evaluate = function() {
+    if (!this._FileName?.endsWith('.js'))
+        return smalltalk.alert(this._TITLE, 'JS only');
+
+    const [e] = tryCatch(new Function(this.getValue()));
+
+    if (e)
+        smalltalk.alert(this._TITLE, e.message);
+
     return this;
 };
 
-Dword.prototype.setValueFirst = function(name, value) {
-    const Ace = this._Ace;
-    const dword = this;
-    
-    dword.setValue(value);
-    // fix of linenumbers overlap
-    dword.refresh();
-    /*
-     * getCursor returns another
-     * information so set
-     * cursor manually
-     */
-    Ace.setCursor(1, 0);
-    Ace.clearHistory();
-    
-    this._FileName = name;
-    this._Value = value;
-    
-    setTimeout(() => {
-        this._Separator = getLineSeparator(value);
-    }, 0);
-    
-    return this;
-};
+Qword.prototype.goToLine = function() {
+    const num = Number(prompt('Line number'));
 
-/*
- * CodeMirror set default line separator to "\n"
- * what is great for Linux, but Windows use "\r\n"
- * and when trying to check that fact that file was changed
- * it's harder to do when you expect
- * to read saved file without change and
- * receive some changes insteed.
- */
-function getLineSeparator(value) {
-    if (!isString(value))
-        throw Error('value should be string!');
-    
-    if (value.includes('\r\n'))
-        return '\r\n';
-    
-    return '\n';
-}
+    if (!num)
+        return;
 
-Dword.prototype.setOption = function(name, value) {
-    const {_Ace} = this;
-    const preventOverwrite = () => {
-        this._Config.options[name] = value;
-    };
-    
-    preventOverwrite();
-    
-    switch(name) {
-    default:
-        _Ace.setOption(name, value);
-        break;
-    
-    case 'fontSize':
-        _Ace.display.wrapper.style.fontSize = `${value}px`;
-        break;
-    }
-    
-    return this;
-};
+    const line = this._view.state.doc.line(num);
 
-Dword.prototype.setKeyMap = setKeyMap;
-Dword.prototype.setOptions = function(options) {
-    for (const name of Object.keys(options)) {
-        const value = options[name];
-        
-        this.setOption(name, value);
-    }
-    
-    return this;
-};
-
-Dword.prototype.setMode = function(mode, callback) {
-    const isJSON = mode === 'json';
-    
-    const fn = (mode) => {
-        this._Ace.setOption('mode', mode);
-        exec(callback);
-    };
-    
-    if (isJSON)
-        mode = 'javascript';
-    else if (!mode)
-        mode = null;
-    
-    const is = CodeMirror.modes[mode];
-    
-    if (is || !mode) {
-        fn(mode);
-        return this;
-    }
-    
-    CodeMirror.requireMode(mode, () => {
-        fn(mode);
+    this._view.dispatch({
+        selection: {
+            anchor: line.from,
+        },
+        scrollIntoView: true,
     });
-    
-    return this;
+
+    this.focus();
 };
 
-Dword.prototype.setModeForPath = function(path) {
-    const {findModeByFileName} = CodeMirror;
-    const name = path
-        .split('/')
-        .pop();
-    
-    this._addExt(name, (name) => {
-        const dword = this;
-        const {mode} = findModeByFileName(name) || {};
-        const htmlMode = findModeByFileName('.html').mode;
-        const isHTML = mode === htmlMode;
-        
-        dword.setOption('matchTags', isHTML);
-        
-        if (isHTML)
-            this._setEmmet();
-        
-        dword.setMode(mode, () => {
-            const reg = /^(json|javascript)$/;
-            const isLint = reg.test(mode);
-            const isJS = /.js$/.test(name);
-            
-            if (!isLint)
-                return dword.setOption('lint', false);
-            
-            if (!isJS)
-                return dword.setOption('lint', true);
-        });
-    });
-    
-    return this;
+Qword.prototype._clipboard = _clipboard;
+Qword.prototype.save = save;
+Qword.prototype._onSave = _onSave;
+Qword.prototype._initSocket = _initSocket;
+
+Qword.prototype._onDragOver = function(event) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'copy';
 };
 
-Dword.prototype.selectAll = function() {
-    this._Ace.execCommand('selectAll');
-    return this;
+Qword.prototype._onDrop = function(event) {
+    event.preventDefault();
+
+    const [file] = event.dataTransfer.files;
+
+    if (!file)
+        return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        this.setValue(e.target.result);
+    };
+
+    reader.readAsText(file);
 };
 
-Dword.prototype.copyToClipboard = function() {
-    const msg = 'Could not copy, use &ltCtrl&gt + &ltС&gt insted!';
-    
-    if (!this._clipboard('copy'))
-        smalltalk.alert(this._TITLE, msg);
-};
-
-Dword.prototype.cutToClipboard = function() {
-    const msg = 'Could not cut, use &ltCtrl&gt + &ltX&gt insted!';
-    
-    if (!this._clipboard('cut'))
-        return smalltalk.alert(this._TITLE, msg);
-    
-    this.remove('right');
-};
-
-Dword.prototype.pasteFromClipboard = function() {
-    const msg = 'Could not paste, use &ltCtrl&gt + &ltV&gt insted!';
-    
-    if (!this._clipboard('paste'))
-        smalltalk.alert(this._TITLE, msg);
-};
-
-Dword.prototype._clipboard = _clipboard;
-
-Dword.prototype.sha = function() {
-    const value = this.getValue();
+Qword.prototype.sha = function() {
     const shaObj = new jssha('SHA-1', 'TEXT');
-    
-    shaObj.update(value);
-    
+    shaObj.update(this.getValue());
+
     return shaObj.getHash('HEX');
 };
 
-Dword.prototype.save = save;
-
-Dword.prototype._loadOptions = async function() {
-    const url = this._PREFIX + '/options.json';
-    
-    if (this._Options)
-        return this._Options;
-    
-    const data = await load.json(url);
-    
-    this._Options = data;
-    
-    return data;
-};
-
-Dword.prototype._patchHttp = function(path, patch) {
-    const onSave = this._onSave.bind(this);
-    restafary.patch(path, patch, onSave);
-};
-
-Dword.prototype._writeHttp = function(path, result) {
-    const onSave = this._onSave.bind(this);
-    restafary.write(path, result, onSave);
-};
-
-Dword.prototype._onSave = _onSave;
-Dword.prototype._doDiff = async function(path) {
-    const value = this.getValue();
-    
-    const patch = this._diff(value);
-    const equal = await this._story.checkHash(path);
-    
-    return equal ? patch : '';
-};
-
-Dword.prototype._diff = function(newValue) {
-    const {_story, _FileName} = this;
-    
-    this._Value = _story.getData(_FileName) || this._Value;
-    return createPatch(this._Value, newValue);
-};
-
-Dword.prototype._setEmmet = function() {
-    const dir = this._DIR + 'codemirror-emmet/dist/';
-    const {extensions} = this._Config;
-    const isEmmet = extensions.emmet;
-    
-    if (!isEmmet)
-        return;
-    
-    load.js(this._PREFIX + join([`${dir}emmet.min.js`]));
-};
-
-Dword.prototype._addExt = function(name, fn) {
-    if (this._Ext)
-        return add(null, this._Ext);
-    
-    load.json(this._PREFIX + '/json/ext.json', (error, data) => {
-        this._Ext = data;
-        add(error, this._Ext);
+Qword.prototype.setOptions = function(options) {
+    const theme = EditorView.theme({
+        '&': {
+            fontSize: options.fontSize,
+            fontFamily: options.fontFamily,
+        },
     });
-    
-    function add(error, exts) {
-        if (error)
-            return;
-        
-        Object
-            .keys(exts)
-            .some((ext) => {
-                const arr = exts[ext];
-                const is = arr.includes(name);
-                
-                if (is)
-                    name += `.${ext}`;
-                
-                return is;
-            });
-        
-        fn(name);
-    }
+
+    this._view.dispatch({
+        effects: this._fontCompartment.reconfigure(theme),
+    });
+
+    return this;
 };
-
-Dword.prototype._initSocket = _initSocket;
-Dword.prototype._initValue = function(name, data) {
-    return this
-        .setModeForPath(name)
-        .setValueFirst(name, data)
-        .moveCursorTo(0, 0);
-};
-
-/**
- * In Mac OS Chrome dropEffect = 'none'
- * so drop do not firing up when try
- * to upload file from download bar
- */
-Dword.prototype._onDragOver = function(event) {
-    const {dataTransfer} = event;
-    const {effectAllowed} = dataTransfer;
-    
-    if (/move|linkMove/.test(effectAllowed))
-        dataTransfer.dropEffect = 'move';
-    else
-        dataTransfer.dropEffect = 'copy';
-    
-    event.preventDefault();
-};
-
-Dword.prototype._onDrop = function(event) {
-    const dword = this;
-    const onLoad = (event) => {
-        const data = event.target.result;
-        dword.setValue(data);
-    };
-    
-    event.preventDefault();
-    
-    const {files} = event.dataTransfer;
-    
-    for (const file of files) {
-        const reader = new FileReader();
-        reader.addEventListener('load', onLoad);
-        reader.readAsBinaryString(file);
-    }
-};
-
-Dword.prototype._loadStyles = async function() {
-    const dir = this._DIR + 'codemirror/';
-    const addon = `${dir}addon/`;
-    const lint = `${addon}lint/`;
-    const {theme} = this._Config.options;
-    
-    const urls = [
-        `${addon}dialog/dialog`,
-        `${addon}search/matchesonscrollbar`,
-        `${lint}lint`,
-        '/css/dword',
-    ];
-    
-    if (theme && theme !== 'default')
-        urls.unshift(dir + 'theme/' + theme);
-    
-    const addCss = (a) => `${a}.css`;
-    const urlCSS = this._PREFIX + join(urls.map(addCss));
-    
-    await load(urlCSS);
-};
-
-async function loadFiles(prefix) {
-    const obj = {
-        join: '/join/join.js',
-    };
-    
-    const scripts = Object
-        .keys(obj)
-        .filter(notGlobal)
-        .map(addPrefix(obj, prefix));
-    
-    if (scripts.length)
-        await load.parallel(scripts);
-}
-
-Dword.prototype._loadFilesAll = async function() {
-    const DIR = this._DIR;
-    const prefix = this._PREFIX;
-    
-    const promises = [
-        loadRemote('codemirror', {
-            prefix,
-        }),
-        loadRemote('socket', {
-            name: 'io',
-            prefix: this._socketPath,
-        }),
-    ];
-    
-    await Promise.all(promises);
-    
-    restafary.prefix(`${prefix}/api/v1/fs`);
-    
-    CodeMirror.modeURL = prefix + DIR + 'codemirror/mode/%N/%N.js';
-    
-    const dir = `${DIR}codemirror/`;
-    const client = 'client/codemirror/';
-    const addon = `${dir}addon/`;
-    const lint = `${addon}lint/`;
-    
-    const urlJS = prefix +
-        join([
-            `${dir}mode/meta`,
-            `${lint}lint`,
-            `${lint}javascript-lint`,
-            `${lint}json-lint`,
-            //client + 'show-trailing',
-            `${client}use-soft-tabs`,
-            `${DIR}jshint/dist/jshint`,
-            `${DIR}cm-searchbox/lib/searchbox`,
-            `${DIR}cm-show-invisibles/lib/show-invisibles`,
-            getKeyMapPath(dir, this._Config),
-            `${dir}keymap/vim`,
-        ]
-            .filter(Boolean)
-            .concat([
-                'display/autorefresh',
-                'comment/comment',
-                'comment/continuecomment',
-                'mode/loadmode',
-                'mode/overlay',
-                'search/searchcursor',
-                'search/match-highlighter',
-                'search/matchesonscrollbar',
-                'dialog/dialog',
-                'scroll/annotatescrollbar',
-                'fold/xml-fold',
-                'edit/closebrackets',
-                'edit/matchbrackets',
-                'edit/matchtags',
-            ].map((name) => addon + name))
-            .map((name) => `${name}.js`));
-    
-    await load(urlJS);
-};
-
-function getKeyMapPath(dir, config) {
-    const keyMap = config?.options?.keyMap;
-    
-    if (keyMap && keyMap !== 'default')
-        return dir + 'keymap/' + keyMap;
-    
-    return '';
-}

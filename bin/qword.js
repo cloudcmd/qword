@@ -10,7 +10,7 @@ import {Server} from 'socket.io';
 import info from '../package.json' with {
     type: 'json',
 };
-import {dword} from '../server/index.js';
+import {qword} from '../server/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -53,7 +53,7 @@ function main(name) {
     
     app
         .use(express.static(DIR))
-        .use(dword({
+        .use(qword({
             online: false,
             diff: true,
             zip: true,
@@ -62,7 +62,7 @@ function main(name) {
     server.listen(port, ip);
     
     const socket = new Server(server);
-    const edSocket = dword.listen(socket);
+    const edSocket = qword.listen(socket);
     
     edSocket.on('connection', () => {
         fs.readFile(name, 'utf8', (error, data) => {

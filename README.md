@@ -83,6 +83,7 @@ Could be used with [socket.io](http://socket.io "Socket.io") to handle editor ev
 
 ```js
 import {Server} from 'socket.io';
+
 const socket = new Server(server);
 
 qword.listen(socket, {
