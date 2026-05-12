@@ -63,28 +63,26 @@ export default function Qword(el, options = {}, callback = () => {}) {
     this._maxSize = options.maxSize || 512_000;
     
     this._PREFIX = options.prefix || '/qword';
-    
     this._prefixSocket = options.prefixSocket || '/qword';
-    
     this._socketPath = options.socketPath || '';
     
     this._Emitter = Emitify();
     
     this._view = null;
-    
     this._pendingValue = null;
     
     this._modeCompartment = new Compartment();
     this._keymapCompartment = new Compartment();
     this._fontCompartment = new Compartment();
+    this._langCompartment = new Compartment();
+    
+    // ✅ FIX: добавили vim compartment
+    this._vimCompartment = new Compartment();
     
     this._Element.addEventListener('drop', this._onDrop.bind(this));
-    
     this._Element.addEventListener('dragover', this._onDragOver.bind(this));
     
-    this
-        ._init()
-        .then(() => callback(this));
+    this._init().then(() => callback(this));
     
     this._patch = (path, patch) => {
         this._patchHttp(path, patch);
@@ -121,19 +119,6 @@ Qword.prototype._init = async function() {
     return this;
 };
 
-Qword.prototype._loadOptions = async function() {
-    const url = this._PREFIX + '/options.json';
-    
-    if (this._Options)
-        return this._Options;
-    
-    const data = await load.json(url);
-    
-    this._Options = data;
-    
-    return data;
-};
-
 Qword.prototype._initEditor = function() {
     const baseExtensions = () => [
         lineNumbers(),
@@ -141,10 +126,16 @@ Qword.prototype._initEditor = function() {
         highlightActiveLine(),
         syntaxHighlighting(defaultHighlightStyle),
         oneDark,
-        this._modeCompartment.of(javascript()),
+        
+        this._langCompartment.of(javascript()),
+        
+        // ✅ FIX: vim теперь через compartment
+        this._vimCompartment.of([]),
+        
         keymap.of([
             ...defaultKeymap,
-            ...historyKeymap, {
+            ...historyKeymap,
+            {
                 key: 'Mod-s',
                 run: () => {
                     this.save();
@@ -192,13 +183,11 @@ Qword.prototype.setValue = function(value) {
 
 Qword.prototype.focus = function() {
     this._view.focus();
-    
     return this;
 };
 
 Qword.prototype.getCursor = function() {
     const pos = this._view.state.selection.main.head;
-    
     const line = this._view.state.doc.lineAt(pos);
     
     return {
@@ -214,7 +203,6 @@ Qword.prototype.moveCursorTo = function(row, column = 0) {
         selection: {
             anchor: line.from + column,
         },
-        
         scrollIntoView: true,
     });
     
@@ -225,22 +213,16 @@ Qword.prototype.remove = function(direction) {
     const pos = this._view.state.selection.main.head;
     
     this._view.dispatch({
-        changes: direction === 'right' ? {
-            from: pos,
-            to: pos + 1,
-        } : {
-            from: pos - 1,
-            to: pos,
-        },
+        changes: direction === 'right'
+            ? {from: pos, to: pos + 1}
+            : {from: pos - 1, to: pos},
     });
     
     return this;
 };
 
 Qword.prototype.setModeForPath = function(path) {
-    const ext = path
-        .split('.')
-        .pop();
+    const ext = path.split('.').pop();
     
     let lang = javascript();
     
@@ -251,7 +233,7 @@ Qword.prototype.setModeForPath = function(path) {
         lang = html();
     
     this._view.dispatch({
-        effects: this._modeCompartment.reconfigure(lang),
+        effects: this._langCompartment.reconfigure(lang),
     });
     
     return this;
@@ -259,7 +241,6 @@ Qword.prototype.setModeForPath = function(path) {
 
 Qword.prototype.setValueFirst = function(name, value) {
     this.setModeForPath(name);
-    
     this.setValue(value);
     
     this._FileName = name;
@@ -271,20 +252,18 @@ Qword.prototype.setValueFirst = function(name, value) {
 };
 
 Qword.prototype.addKeyMap = function(map) {
-    const bindings = Object
-        .entries(map)
-        .map(([key, fn]) => ({
-            key,
-            
-            run: () => {
-                fn.call(this);
-                
-                return true;
-            },
-        }));
+    const bindings = Object.entries(map).map(([key, fn]) => ({
+        key,
+        run: () => {
+            fn.call(this);
+            return true;
+        },
+    }));
     
     this._view.dispatch({
-        effects: this._keymapCompartment.reconfigure(keymap.of(bindings)),
+        effects: this._keymapCompartment.reconfigure(
+            keymap.of(bindings),
+        ),
     });
     
     return this;
@@ -292,27 +271,16 @@ Qword.prototype.addKeyMap = function(map) {
 
 Qword.prototype.on = function(event, fn) {
     this._Emitter.on(event, fn);
-    
     return this;
 };
 
 Qword.prototype.emit = function(...args) {
     this._Emitter.emit(...args);
-    
     return this;
 };
 
 Qword.prototype.isChanged = function() {
     return this.getValue() !== this._Value;
-};
-
-Qword.prototype._doDiff = async function(path) {
-    const value = this.getValue();
-    
-    const patch = this._diff(value);
-    const equal = await this._story.checkHash(path);
-    
-    return equal ? patch : '';
 };
 
 Qword.prototype._diff = function(newValue) {
@@ -348,10 +316,7 @@ Qword.prototype.goToLine = function() {
     const line = this._view.state.doc.line(num);
     
     this._view.dispatch({
-        selection: {
-            anchor: line.from,
-        },
-        
+        selection: {anchor: line.from},
         scrollIntoView: true,
     });
     
@@ -359,16 +324,12 @@ Qword.prototype.goToLine = function() {
 };
 
 Qword.prototype._clipboard = _clipboard;
-
 Qword.prototype.save = save;
-
 Qword.prototype._onSave = _onSave;
-
 Qword.prototype._initSocket = _initSocket;
 
 Qword.prototype._onDragOver = function(event) {
     event.preventDefault();
-    
     event.dataTransfer.dropEffect = 'copy';
 };
 
@@ -391,7 +352,6 @@ Qword.prototype._onDrop = function(event) {
 
 Qword.prototype.sha = function() {
     const shaObj = new jssha('SHA-1', 'TEXT');
-    
     shaObj.update(this.getValue());
     
     return shaObj.getHash('HEX');
@@ -417,18 +377,11 @@ Qword.prototype.showMessage = showMessage;
 Qword.prototype.setKeyMap = function(mode) {
     this._vimEnabled = mode === 'vim';
     
-    const extensions = this._baseExtensions();
-    
-    if (this._vimEnabled)
-        extensions.push(vim());
-    
-    const state = EditorState.create({
-        doc: this.getValue(),
-        extensions,
+    this._view.dispatch({
+        effects: this._vimCompartment.reconfigure(
+            this._vimEnabled ? vim() : [],
+        ),
     });
-    
-    this._view.setState(state);
     
     return this;
 };
-
