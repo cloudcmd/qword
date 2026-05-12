@@ -135,7 +135,7 @@ Qword.prototype._loadOptions = async function() {
 };
 
 Qword.prototype._initEditor = function() {
-    const extensions = [
+    const baseExtensions = () => [
         lineNumbers(),
         history(),
         highlightActiveLine(),
@@ -146,20 +146,19 @@ Qword.prototype._initEditor = function() {
             ...defaultKeymap,
             ...historyKeymap, {
                 key: 'Mod-s',
-                
                 run: () => {
-                    if (this._isKey)
-                        this.save();
-                    
+                    this.save();
                     return true;
                 },
             },
         ]),
     ];
     
+    this._vimEnabled = false;
+    
     const state = EditorState.create({
         doc: '',
-        extensions,
+        extensions: baseExtensions(),
     });
     
     this._view = new EditorView({
@@ -167,8 +166,7 @@ Qword.prototype._initEditor = function() {
         parent: this._Element,
     });
     
-    this._vimCompartment = new Compartment();
-    this._vimCompartment.of([]);
+    this._baseExtensions = baseExtensions;
 };
 
 Qword.prototype.getValue = function() {
@@ -417,14 +415,19 @@ Qword.prototype.setOptions = function(options) {
 Qword.prototype.showMessage = showMessage;
 
 Qword.prototype.setKeyMap = function(mode) {
-    let ext = [];
+    this._vimEnabled = mode === 'vim';
     
-    if (mode === 'vim')
-        ext = vim();
+    const extensions = this._baseExtensions();
     
-    this._view.dispatch({
-        effects: this._vimCompartment.reconfigure(ext),
+    if (this._vimEnabled)
+        extensions.push(vim());
+    
+    const state = EditorState.create({
+        doc: this.getValue(),
+        extensions,
     });
+    
+    this._view.setState(state);
     
     return this;
 };
