@@ -374,7 +374,6 @@ Qword.prototype.sha = function() {
 };
 
 Qword.prototype.setOption = function(name, value) {
-    const {_Ace} = this;
     const preventOverwrite = () => {
         this._Config.options[name] = value;
     };

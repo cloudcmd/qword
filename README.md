@@ -14,13 +14,12 @@ Fork of [edward](https://github.com/cloudcmd/edward "Edward").
 
 <img width="601" height="295" alt="image" src="https://github.com/user-attachments/assets/e632f48a-ef74-4d5c-bbe8-8f6e44151d00" />
 
-
 ## Features
 
 - Syntax highlighting based on extension of file for over 90 languages.
 - Built-in `emmet` (for html files)
 - Drag n drop (drag file from desktop to editor).
-- Configurable options ([json/edit.json][edit.json] could be overriden by `~/.qword.json`)
+- Configurable options ([json/edit.json][edit.json] could be overridden by `~/.qword.json`)
 
 ## Install
 
@@ -52,7 +51,7 @@ Usage: `qword [filename]`
 ## API
 
 qword could be used as middleware for [express](http://expressjs.com "Express").
-For this purpuse API could be used.
+For this purpose API could be used.
 
 ### Server
 
