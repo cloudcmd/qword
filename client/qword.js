@@ -78,7 +78,7 @@ export default function Qword(el, options = {}, callback = noop) {
     this._keymapCompartment = new Compartment();
     this._fontCompartment = new Compartment();
     this._langCompartment = new Compartment();
-    // ✅ FIX: добавили vim compartment
+    this._historyCompartment = new Compartment();
     this._vimCompartment = new Compartment();
     
     this._Element.addEventListener('drop', this._onDrop.bind(this));
@@ -132,14 +132,18 @@ Qword.prototype._init = async function() {
 
 Qword.prototype._initEditor = function() {
     this._Element.style.height = '100vh';
+    
     const baseExtensions = () => [
+        this._historyCompartment.of([
+            history(),
+            keymap.of(historyKeymap),
+        ]),
         lineNumbers(),
         history(),
         highlightActiveLine(),
         syntaxHighlighting(defaultHighlightStyle),
         oneDark,
         this._langCompartment.of(javascript()),
-        // ✅ FIX: vim теперь через compartment
         this._vimCompartment.of([]),
         keymap.of([
             ...defaultKeymap,
@@ -260,6 +264,7 @@ Qword.prototype.setValueFirst = function(name, value) {
     this._FileName = name;
     this._Value = value;
     
+    this.clearHistory();
     this.moveCursorTo(0, 0);
     
     return this;
@@ -430,3 +435,24 @@ Qword.prototype.enableKey = function() {
     this._isKey = true;
     return this;
 };
+
+Qword.prototype.clearHistory = function() {
+    if (!this._view)
+        return this;
+    
+    this._view.dispatch({
+        effects: this._historyCompartment.reconfigure(this._vimEnabled ? [] : [
+            history(),
+            keymap.of(historyKeymap),
+        ]),
+    });
+    
+    const {cm} = this._view;
+    
+    cm.state.vim.undoHistory = [];
+    cm.state.vim.redoHistory = [];
+    cm.state.vim.globalState.jumpList = [];
+    
+    return this;
+};
+
