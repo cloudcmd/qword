@@ -1,3 +1,11 @@
+2026.05.18, v1.0.3
+
+fix:
+- 73fb35d qword: clear history on setValueFirst to avoid undo to empty editor
+
+feature:
+- 9b3200c qword: cssnano v8.0.1
+
 2026.05.13, v1.0.2
 
 feature:
