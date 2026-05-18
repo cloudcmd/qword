@@ -455,4 +455,3 @@ Qword.prototype.clearHistory = function() {
     
     return this;
 };
-
