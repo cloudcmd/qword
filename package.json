@@ -64,6 +64,8 @@
     "@putout/eslint-flat": "^4.0.0",
     "@putout/plugin-convert-webpack-to-rspack": "^1.0.1",
     "@replit/codemirror-vim": "^6.3.0",
+    "@rspack/cli": "^2.2.1",
+    "@rspack/core": "^2.2.1",
     "@supertape/loader-css": "^1.0.0",
     "@supertape/loader-dom": "^1.0.0",
     "@testing-library/dom": "^10.4.1",
