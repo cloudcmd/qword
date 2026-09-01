@@ -65,14 +65,8 @@ test('clipboard: paste falls back to story on clipboard error', async (t) => {
 
 function createStoryStub() {
     return {
-        called: false,
-        setData() {
-            this.called = true;
-            return this;
-        },
-        getData() {
-            return '';
-        },
+        setData: stub(),
+        getData: stub().returns(''),
     };
 }
 
