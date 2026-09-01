@@ -1,53 +1,41 @@
 import clipboard from '@cloudcmd/clipboard';
-import createElement from '@cloudcmd/create-element';
 import once from 'once';
-import _showMessageOnce from './show-message.js';
+import showMessage from './show-message.js';
 
-const resolve = Promise.resolve.bind(Promise);
-const reject = Promise.reject.bind(Promise);
-const showMessageOnce = once(_showMessageOnce);
+const showMessageOnce = once(showMessage);
 
-export default (cmd) => {
+export default function clipboardCommand(command) {
+    const {_view, _story} = this;
     const NAME = 'editor-clipboard';
-    const {_Ace, _story} = this;
-    
-    const value = _Ace.getSelection('\n');
-    const insert = (a) => _Ace
-        .getDoc()
-        .replaceSelection(a);
-    
-    if (cmd === 'copy') {
+
+    const getSelected = () => {
+        const {from, to} = _view.state.selection.main;
+        return _view.state.sliceDoc(from, to);
+    };
+
+    const insert = (text) => {
+        const {from, to} = _view.state.selection.main;
+        _view.dispatch({changes: {from, to, insert: text}});
+    };
+
+    if (command === 'copy') {
+        const value = getSelected();
         _story.setData(NAME, value);
         return clipboard.writeText(value);
     }
-    
-    if (cmd === 'cut') {
+
+    if (command === 'cut') {
+        const value = getSelected();
         _story.setData(NAME, value);
-        return cut(value) ? resolve() : reject();
+        insert('');
+        return clipboard.writeText(value);
     }
-    
+
     return clipboard
         .readText()
         .then(insert)
         .catch(() => {
-            showMessageOnce('Could not paste from clipboard. Inner buffer used.');
-            
-            const value = _story.getData(NAME);
-            
-            insert(value);
+            showMessageOnce.call(this, 'Could not paste from clipboard. Inner buffer used.');
+            insert(_story.getData(NAME));
         });
-};
-
-function cut(value) {
-    const textarea = createElement('textarea', {
-        value,
-    });
-    
-    textarea.select();
-    
-    const result = document.execCommand('cut');
-    
-    document.body.removeChild(textarea);
-    
-    return result;
 }
