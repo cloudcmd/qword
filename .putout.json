@@ -1,5 +1,8 @@
 {
     "match": {
+        "webpack.config.js": {
+            "convert-webpack-to-rspack": "on"
+        },
         "client": {
             "nodejs/convert-commonjs-to-esm/common": "off",
             "nodejs": "off"
@@ -11,5 +14,8 @@
     "ignore": [
         "codemirror",
         "modules"
+    ],
+    "plugins": [
+        "convert-webpack-to-rspack"
     ]
 }

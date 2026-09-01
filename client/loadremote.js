@@ -59,11 +59,17 @@ export default async (name, options = {}) => {
         local = [module.local];
     }
     
-    local = local.map((url) => prefix + url);
+    local = [];
     
-    const remote = remoteTmpls.map((tmpl) => {
-        return tmpl.replace(/{{\sversion\s}}/g, version);
-    });
+    for (const url of local) {
+        local.push(prefix + url);
+    }
+    
+    const remote = [];
+    
+    for (const tmpl of remoteTmpls) {
+        remote.push(tmpl.replace(/{{\sversion\s}}/g, version));
+    }
     
     if (!online)
         return await off(local);

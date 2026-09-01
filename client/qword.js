@@ -441,10 +441,12 @@ Qword.prototype.clearHistory = function() {
         return this;
     
     this._view.dispatch({
-        effects: this._historyCompartment.reconfigure(this._vimEnabled ? [] : [
-            history(),
-            keymap.of(historyKeymap),
-        ]),
+        effects: this._historyCompartment.reconfigure(this._vimEnabled
+            ? []
+            : [
+                history(),
+                keymap.of(historyKeymap),
+            ]),
     });
     
     const {cm} = this._view;
