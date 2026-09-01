@@ -214,10 +214,15 @@ test('Editor: setModeForPath sets mode', (t) => {
     t.end();
 });
 
-test('Editor: isChanged reflects unsaved value', (t) => {
+test('Editor: isChanged false for clean editor', (t) => {
     const editor = makeEditor();
 
     t.equal(editor.isChanged(), false);
+    t.end();
+});
+
+test('Editor: isChanged true after setValue', (t) => {
+    const editor = makeEditor();
     editor.setValue('changed');
 
     t.equal(editor.isChanged(), true);
@@ -246,5 +251,4 @@ test('Editor: on change event emits value and cursor', (t) => {
 
     t.equal(typeof emitted.value, 'string');
     t.end();
-});
 });
