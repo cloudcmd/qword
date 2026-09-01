@@ -7,6 +7,7 @@ import {
     posFromIndex,
     indexFromPos,
     getCursorIndex,
+    getCursor,
 } from './position.js';
 
 function makeView(document_ = 'hello\nworld') {
@@ -149,5 +150,25 @@ test('position: getCursorIndex returns a number', (t) => {
     view.destroy();
     
     t.equal(result, expected);
+    t.end();
+});
+
+test('position: getCursor returns row and column', (t) => {
+    const view = makeView();
+    view.dispatch({
+        selection: {
+            anchor: 6,
+        },
+    });
+
+    const result = getCursor(view);
+    const expected = {
+        row: 1,
+        column: 0,
+    };
+
+    view.destroy();
+
+    t.deepEqual(result, expected);
     t.end();
 });

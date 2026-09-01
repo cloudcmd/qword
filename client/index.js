@@ -11,6 +11,7 @@ export {
     posFromIndex,
     indexFromPos,
     getCursorIndex,
+    getCursor,
 } from './position.js';
 export {
     markField,
