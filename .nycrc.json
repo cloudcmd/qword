@@ -1,0 +1,17 @@
+{
+    "exclude": [
+        "**/*.spec.js",
+        "**/.madrun.js",
+        "**/*.config.*",
+        "client/qword.js",
+        "client/_clipboard.js",
+        "client/_init-socket.js",
+        "client/loadremote.js",
+        "client/save.js",
+        "client/story.js"
+    ],
+    "lines": 100,
+    "statements": 100,
+    "functions": 100,
+    "branches": 100
+}
