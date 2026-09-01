@@ -6,6 +6,7 @@
         "client/qword.js",
         "client/_clipboard.js",
         "client/_init-socket.js",
+        "client/index.js",
         "client/loadremote.js",
         "client/save.js",
         "client/story.js"
