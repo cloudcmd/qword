@@ -103,6 +103,7 @@
         "style-loader": "^4.0.0",
         "superc8": "^12.7.0",
         "supertape": "^13.5.2",
+        "supertest": "^7.2.2",
         "try-catch": "^4.0.9",
         "wraptile": "^3.0.0",
         "zipio": "^1.0.2"

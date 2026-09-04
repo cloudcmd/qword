@@ -7,6 +7,8 @@ import Edit from '../json/edit.json' with {
 
 const HOME = os.homedir();
 
+let configPath = `${HOME}/.qword.json`;
+
 export default async (req, res, next) => {
     if (req.url !== '/edit.json')
         return next();
@@ -19,6 +21,10 @@ export default async (req, res, next) => {
             .send(error.message);
     
     res.json(data);
+};
+
+export const setConfigPath = (path) => {
+    configPath = path;
 };
 
 function replace(from, to) {
@@ -37,13 +43,12 @@ function copy(from) {
 }
 
 async function readEdit() {
-    const homePath = `${HOME}/.qword.json`;
     const data = copy(Edit);
     
-    const [error, edit] = await tryToCatch(readjson, homePath);
+    const [error, edit] = await tryToCatch(readjson, configPath);
     
     if (error && error.code !== 'ENOENT')
-        throw Error(`qword --config ${homePath}: ${error.message}`);
+        throw Error(`qword --config ${configPath}: ${error.message}`);
     
     if (!edit)
         return data;
