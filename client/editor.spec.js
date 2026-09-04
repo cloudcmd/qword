@@ -264,33 +264,44 @@ test('Editor: on change event emits value and cursor', async (t) => {
     });
     
     const promise = once(editor, 'change');
+    
     editor.setValue('changed');
     const [data] = await promise;
+    const result = typeof data.value;
+    const expected = 'string';
     
-    t.equal(typeof data.value, 'string');
+    t.equal(result, expected);
     t.end();
 });
 
 test('Editor: addListener is alias for on', (t) => {
     const editor = makeEditor();
     let called = false;
-    editor.addListener('change', () => { called = true; });
+    
+    editor.addListener('change', () => {
+        called = true;
+    });
     editor.setValue('x');
+    
     t.ok(called);
     t.end();
 });
 
-test('Editor: emit calls registered handler', (t) => {
+test('Editor: emit calls registered handler', async (t) => {
     const editor = makeEditor();
     let received = null;
-    editor.on('custom', (value) => { received = value; });
+    const [value] = await once(editor, 'custom');
+    
+    received = value;
     editor.emit('custom', 'hello');
+    
     t.equal(received, 'hello');
     t.end();
 });
 
 test('Editor: _view getter returns EditorView', (t) => {
     const editor = makeEditor();
+    
     t.ok(editor._view);
     t.end();
 });

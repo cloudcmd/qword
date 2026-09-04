@@ -3,6 +3,7 @@
         "**/*.spec.js",
         "**/*.config.*",
         "**/.madrun.js",
+        "**/*.d.ts",
         "client/qword.js",
         "client/_clipboard.js",
         "client/_init-socket.js",

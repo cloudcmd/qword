@@ -1,5 +1,8 @@
 {
     "match": {
+        ".madrun.*": {
+            "madrun/insert-test-dts": "on"
+        },
         "webpack.config.js": {
             "convert-webpack-to-rspack": "on"
         },

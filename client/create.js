@@ -53,19 +53,27 @@ export function createEditor(element, options = {}) {
         keymapCompartment.of(keymapExtension(keyMap)),
         langCompartment.of(languageExtension(mode)),
         syntaxHighlighting(highlightStyle),
-        ...lineNumbers ? [
-            lineNumbersExtension(),
-        ] : [],
-        ...fold ? [
-            foldGutter(),
-            codeFolding(),
-        ] : [],
-        ...readOnly ? [
-            EditorState.readOnly.of(true),
-        ] : [],
-        ...updateListener ? [
-            EditorView.updateListener.of(updateListener),
-        ] : [],
+        ...lineNumbers
+            ? [
+                lineNumbersExtension(),
+            ]
+            : [],
+        ...fold
+            ? [
+                foldGutter(),
+                codeFolding(),
+            ]
+            : [],
+        ...readOnly
+            ? [
+                EditorState.readOnly.of(true),
+            ]
+            : [],
+        ...updateListener
+            ? [
+                EditorView.updateListener.of(updateListener),
+            ]
+            : [],
         drawSelection(),
         hideCursorOnBlur,
     ];

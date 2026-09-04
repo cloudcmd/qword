@@ -8,6 +8,7 @@ test('clipboard: copy stores value in story', (t) => {
         story,
         view,
     });
+    
     clipboardFn('copy');
     
     t.ok(story.setData.called, 'story.setData should be called');
@@ -39,6 +40,7 @@ test('clipboard: cut stores value in story', (t) => {
         story,
         view,
     });
+    
     clipboardFn('cut');
     
     t.ok(story.setData.called, 'story.setData should be called');

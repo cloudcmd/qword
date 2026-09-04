@@ -5,6 +5,7 @@ export default {
     'start:dev': async () => `NODE_ENV=development ${await run('start')}`,
     'lint': () => `putout .`,
     'test': () => `NODE_OPTIONS=" --import @supertape/loader-dom --import @supertape/loader-css" tape "client/**/*.spec.js" "server/**/*.spec.js"`,
+    'test:dts': () => 'check-dts test/*.ts',
     'coverage': () => `NODE_OPTIONS=" --import @supertape/loader-dom --import @supertape/loader-css" c8 tape "client/**/*.spec.js" "server/**/*.spec.js"`,
     'fresh:lint': () => run('lint', '--fresh'),
     'lint:fresh': () => run('lint', '--fresh'),

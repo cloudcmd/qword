@@ -15,6 +15,7 @@ export default function clipboardCommand(command) {
     
     const insert = (text) => {
         const {from, to} = _view.state.selection.main;
+        
         _view.dispatch({
             changes: {
                 from,
