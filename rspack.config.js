@@ -27,6 +27,10 @@ export default {
         path: isDev ? distDev : dist,
         pathinfo: isDev,
     },
+    performance: {
+        maxAssetSize: 800_000,
+        maxEntrypointSize: 800_000,
+    },
     module: {
         rules: [{
             test: /\.js$/,
