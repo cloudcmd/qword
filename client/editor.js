@@ -139,6 +139,20 @@ export default class Editor {
         return this;
     }
     
+    addListener(event, handler) {
+        return this.on(event, handler);
+    }
+    
+    once(event, handler) {
+        this.#emitter.once(event, handler);
+        return this;
+    }
+    
+    removeListener(event, handler) {
+        this.#emitter.removeListener(event, handler);
+        return this;
+    }
+    
     emit(...args) {
         this.#emitter.emit(...args);
         return this;

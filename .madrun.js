@@ -9,7 +9,7 @@ export default {
     'fresh:lint': () => run('lint', '--fresh'),
     'lint:fresh': () => run('lint', '--fresh'),
     'fix:lint': () => run('lint', '--fix'),
-    'build-progress': () => 'webpack --progress',
+    'build-progress': () => 'rspack build --config rspack.config.js',
     'build:client': () => run('build-progress', '--mode production'),
     'build:client:dev': async () => `NODE_ENV=development ${await run('build-progress')} --mode development`,
     'build:start': () => run(['build:client', 'start']),
