@@ -1,457 +1,142 @@
 import '../css/qword.css';
-import {EditorState, Compartment} from '@codemirror/state';
-import {
-    EditorView,
-    keymap,
-    lineNumbers,
-    highlightActiveLine,
-} from '@codemirror/view';
-import {
-    history,
-    historyKeymap,
-    defaultKeymap,
-} from '@codemirror/commands';
-import {
-    syntaxHighlighting,
-    defaultHighlightStyle,
-} from '@codemirror/language';
-import {oneDark} from '@codemirror/theme-one-dark';
-import {javascript} from '@codemirror/lang-javascript';
-import {json} from '@codemirror/lang-json';
-import {html} from '@codemirror/lang-html';
-import Emitify from 'emitify';
 import * as smalltalk from 'smalltalk';
 import jssha from 'jssha';
 import load from 'load.js';
 import {createPatch} from 'daffy';
 import * as restafary from 'restafary/client';
-import {tryCatch} from 'try-catch';
-import {vim} from '@replit/codemirror-vim';
 import {tryToCatch} from 'try-to-catch';
+import Editor from './editor.js';
 import Story from './story.js';
-import loadRemote, {loadModules, loadOptions} from './loadremote.js';
 import _clipboard from './_clipboard.js';
 import save from './save.js';
 import _initSocket from './_init-socket.js';
 import _onSave from './_on-save.js';
 import showMessage from './show-message.js';
+import loadRemote, {loadModules, loadOptions} from './loadremote.js';
 
 const noop = () => {};
 
-const isFn = (a) => typeof a === 'function';
-const isString = (a) => typeof a === 'string';
+export default class Qword extends Editor {
+    constructor(element, options = {}, callback = noop) {
+        super(element, options);
 
-export default function Qword(el, options = {}, callback = noop) {
-    if (!(this instanceof Qword))
-        return new Qword(el, options, callback);
-    
-    if (isFn(options)) {
-        callback = options;
-        options = {};
+        this._TITLE        = 'Qword';
+        this._story        = Story();
+        this._savedValue   = '';
+        this._filename     = '';
+        this._maxSize      = options.maxSize || 512_000;
+        this._PREFIX       = options.prefix || '/qword';
+        this._prefixSocket = options.prefixSocket || '/qword';
+        this._socketPath   = options.socketPath || '';
+
+        restafary.prefix(`${this._PREFIX}/api/v1/fs`);
+        this._init().then(() => callback(this));
     }
-    
-    this._DIR = '/modules/';
-    this._TITLE = 'Qword';
-    
-    this._story = Story();
-    
-    this._Separator = '\n';
-    this._isKey = true;
-    
-    this._Element = isString(el) ? document.querySelector(el) : el || document.body;
-    
-    if (!this._Element)
-        throw Error('Qword: element not found');
-    
-    this._maxSize = options.maxSize || 512_000;
-    
-    this._PREFIX = options.prefix || '/qword';
-    this._prefixSocket = options.prefixSocket || '/qword';
-    this._socketPath = options.socketPath || '';
-    
-    this._Emitter = Emitify();
-    
-    this._view = null;
-    this._pendingValue = null;
-    
-    this._modeCompartment = new Compartment();
-    this._keymapCompartment = new Compartment();
-    this._fontCompartment = new Compartment();
-    this._langCompartment = new Compartment();
-    this._historyCompartment = new Compartment();
-    this._vimCompartment = new Compartment();
-    
-    this._Element.addEventListener('drop', this._onDrop.bind(this));
-    this._Element.addEventListener('dragover', this._onDragOver.bind(this));
-    
-    this
-        ._init()
-        .then(() => callback(this));
-    
-    this._patch = (path, patch) => {
-        this._patchHttp(path, patch);
-    };
-    
-    this._write = (path, result) => {
-        this._writeHttp(path, result);
-    };
+
+    async _init() {
+        const [error, config] = await tryToCatch(load.json, `${this._PREFIX}/edit.json`);
+
+        if (error)
+            return smalltalk.alert(this._TITLE, 'Could not load edit.json!');
+
+        this._Config = config;
+
+        await Promise.all([
+            loadOptions(this._PREFIX),
+            loadModules(this._PREFIX),
+        ]);
+
+        await loadRemote('socket', {prefix: this._socketPath});
+        this._initSocket();
+    }
+
+    setValueFirst(name, value) {
+        this.setModeForPath(name);
+        this.setValue(value);
+        this._filename   = name;
+        this._savedValue = value;
+        this.clearHistory();
+        this.moveCursorTo(0, 0);
+        return this;
+    }
+
+    sha() {
+        const sha = new jssha('SHA-1', 'TEXT');
+        sha.update(this.getValue());
+        return sha.getHash('HEX');
+    }
+
+    evaluate() {
+        if (!this._filename?.endsWith('.js'))
+            return smalltalk.alert(this._TITLE, 'JS only');
+
+        try {
+            new Function(this.getValue())();
+        } catch (error) {
+            smalltalk.alert(this._TITLE, error.message);
+        }
+
+        return this;
+    }
+
+    goToLine() {
+        const number = Number(prompt('Line number'));
+
+        if (!number)
+            return;
+
+        const line = this._view.state.doc.line(number);
+        this._view.dispatch({selection: {anchor: line.from}, scrollIntoView: true});
+        this.focus();
+    }
+
+    remove(direction) {
+        const {state} = this._view;
+        const {from, to} = state.selection.main;
+        const isCollapsed = from === to;
+
+        if (direction === 'right') {
+            const end = isCollapsed ? to + 1 : to;
+            this._view.dispatch({changes: {from, to: end, insert: ''}});
+        } else {
+            const start = isCollapsed ? from - 1 : from;
+            if (start >= 0)
+                this._view.dispatch({changes: {from: start, to, insert: ''}});
+        }
+
+        return this;
+    }
+
+    selectAll() {
+        const {doc} = this._view.state;
+        this._view.dispatch({selection: {anchor: 0, head: doc.length}});
+        return this;
+    }
+
+    enableKey() {
+        return this;
+    }
+
+    cutToClipboard()     { return this._clipboard('cut'); }
+    copyToClipboard()    { return this._clipboard('copy'); }
+    pasteFromClipboard() { return this._clipboard('paste'); }
+
+    _patchHttp(path, patch) {
+        restafary.patch(path, patch, this._onSave.bind(this));
+    }
+
+    _writeHttp(path, data) {
+        restafary.write(path, data, this._onSave.bind(this));
+    }
+
+    async _doDiff(path) {
+        const equal = await this._story.checkHash(path).catch(() => false);
+        return equal ? '' : createPatch(this._savedValue || '', this.getValue());
+    }
 }
 
-Qword.prototype._init = async function() {
-    const prefix = this._PREFIX;
-    
-    const [error, config] = await tryToCatch(load.json, this._PREFIX + '/edit.json');
-    
-    if (error)
-        return smalltalk.alert(this._TITLE, 'Could not load edit.json!');
-    
-    this._Config = config;
-    
-    await Promise.all([
-        loadOptions(prefix),
-        loadModules(prefix),
-    ]);
-    
-    await loadRemote('socket', {
-        prefix: this._socketPath,
-    });
-    
-    restafary.prefix(`${this._PREFIX}/api/v1/fs`);
-    
-    this._initEditor();
-    
-    if (this._pendingValue !== null) {
-        this.setValue(this._pendingValue);
-        this._pendingValue = null;
-    }
-    
-    this._initSocket();
-    
-    return this;
-};
-
-Qword.prototype._initEditor = function() {
-    this._Element.style.height = '100vh';
-    
-    const baseExtensions = () => [
-        this._historyCompartment.of([
-            history(),
-            keymap.of(historyKeymap),
-        ]),
-        lineNumbers(),
-        history(),
-        highlightActiveLine(),
-        syntaxHighlighting(defaultHighlightStyle),
-        oneDark,
-        this._langCompartment.of(javascript()),
-        this._vimCompartment.of([]),
-        keymap.of([
-            ...defaultKeymap,
-            ...historyKeymap, {
-                key: 'Mod-s',
-                run: () => {
-                    this.save();
-                    return true;
-                },
-            },
-        ]),
-    ];
-    
-    this._vimEnabled = false;
-    
-    const state = EditorState.create({
-        doc: '',
-        extensions: baseExtensions(),
-    });
-    
-    this._view = new EditorView({
-        state,
-        parent: this._Element,
-    });
-    
-    this._baseExtensions = baseExtensions;
-};
-
-Qword.prototype.getValue = function() {
-    return this._view.state.doc.toString();
-};
-
-Qword.prototype.setValue = function(value) {
-    if (!this._view) {
-        this._pendingValue = value;
-        return this;
-    }
-    
-    this._view.dispatch({
-        changes: {
-            from: 0,
-            to: this._view.state.doc.length,
-            insert: value,
-        },
-    });
-    
-    return this;
-};
-
-Qword.prototype.focus = function() {
-    this._view.focus();
-    return this;
-};
-
-Qword.prototype.getCursor = function() {
-    const pos = this._view.state.selection.main.head;
-    const line = this._view.state.doc.lineAt(pos);
-    
-    return {
-        row: line.number - 1,
-        column: pos - line.from,
-    };
-};
-
-Qword.prototype.moveCursorTo = function(row, column = 0) {
-    const line = this._view.state.doc.line(row + 1);
-    
-    this._view.dispatch({
-        selection: {
-            anchor: line.from + column,
-        },
-        scrollIntoView: true,
-    });
-    
-    return this;
-};
-
-Qword.prototype.remove = function(direction) {
-    const pos = this._view.state.selection.main.head;
-    
-    this._view.dispatch({
-        changes: direction === 'right' ? {
-            from: pos,
-            to: pos + 1,
-        } : {
-            from: pos - 1,
-            to: pos,
-        },
-    });
-    
-    return this;
-};
-
-Qword.prototype.setModeForPath = function(path) {
-    const ext = path
-        .split('.')
-        .pop();
-    
-    let lang = javascript();
-    
-    if (ext === 'json')
-        lang = json();
-    
-    if (ext === 'html')
-        lang = html();
-    
-    this._view.dispatch({
-        effects: this._langCompartment.reconfigure(lang),
-    });
-    
-    return this;
-};
-
-Qword.prototype.setValueFirst = function(name, value) {
-    this.setModeForPath(name);
-    this.setValue(value);
-    
-    this._FileName = name;
-    this._Value = value;
-    
-    this.clearHistory();
-    this.moveCursorTo(0, 0);
-    
-    return this;
-};
-
-Qword.prototype.addKeyMap = function(map) {
-    const bindings = Object
-        .entries(map)
-        .map(([key, fn]) => ({
-            key,
-            run: () => {
-                fn.call(this);
-                return true;
-            },
-        }));
-    
-    this._view.dispatch({
-        effects: this._keymapCompartment.reconfigure(keymap.of(bindings)),
-    });
-    
-    return this;
-};
-
-Qword.prototype.on = function(event, fn) {
-    this._Emitter.on(event, fn);
-    return this;
-};
-
-Qword.prototype.emit = function(...args) {
-    this._Emitter.emit(...args);
-    return this;
-};
-
-Qword.prototype.isChanged = function() {
-    return this.getValue() !== this._Value;
-};
-
-Qword.prototype._diff = function(newValue) {
-    return createPatch(this._Value || '', newValue);
-};
-
-Qword.prototype._patchHttp = function(path, patch) {
-    restafary.patch(path, patch, this._onSave.bind(this));
-};
-
-Qword.prototype._writeHttp = function(path, result) {
-    restafary.write(path, result, this._onSave.bind(this));
-};
-
-Qword.prototype.evaluate = function() {
-    if (!this._FileName?.endsWith('.js'))
-        return smalltalk.alert(this._TITLE, 'JS only');
-    
-    const [e] = tryCatch(new Function(this.getValue()));
-    
-    if (e)
-        smalltalk.alert(this._TITLE, e.message);
-    
-    return this;
-};
-
-Qword.prototype.goToLine = function() {
-    const num = Number(prompt('Line number'));
-    
-    if (!num)
-        return;
-    
-    const line = this._view.state.doc.line(num);
-    
-    this._view.dispatch({
-        selection: {
-            anchor: line.from,
-        },
-        scrollIntoView: true,
-    });
-    
-    this.focus();
-};
-
-Qword.prototype._clipboard = _clipboard;
-Qword.prototype.save = save;
-Qword.prototype._onSave = _onSave;
+Qword.prototype._clipboard  = _clipboard;
+Qword.prototype.save        = save;
+Qword.prototype._onSave     = _onSave;
 Qword.prototype._initSocket = _initSocket;
-
-Qword.prototype._onDragOver = function(event) {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = 'copy';
-};
-
-Qword.prototype._onDrop = function(event) {
-    event.preventDefault();
-    
-    const [file] = event.dataTransfer.files;
-    
-    if (!file)
-        return;
-    
-    const reader = new FileReader();
-    
-    reader.onload = (e) => {
-        this.setValue(e.target.result);
-    };
-    
-    reader.readAsText(file);
-};
-
-Qword.prototype.sha = function() {
-    const shaObj = new jssha('SHA-1', 'TEXT');
-    shaObj.update(this.getValue());
-    
-    return shaObj.getHash('HEX');
-};
-
-Qword.prototype.setOption = function(name, value) {
-    const preventOverwrite = () => {
-        this._Config.options[name] = value;
-    };
-    
-    preventOverwrite();
-    
-    if (name === 'keyMap')
-        this.setKeyMap(value);
-    
-    return this;
-};
-
-Qword.prototype.setOptions = function(options) {
-    const theme = EditorView.theme({
-        '&': {
-            fontSize: options.fontSize,
-            fontFamily: options.fontFamily,
-        },
-    });
-    
-    this._view.dispatch({
-        effects: this._fontCompartment.reconfigure(theme),
-    });
-    
-    return this;
-};
-
 Qword.prototype.showMessage = showMessage;
-
-Qword.prototype.setKeyMap = function(mode) {
-    this._vimEnabled = mode === 'vim';
-    
-    this._view.dispatch({
-        effects: this._vimCompartment.reconfigure(this._vimEnabled ? vim() : []),
-    });
-    
-    return this;
-};
-
-Qword.prototype._loadOptions = async function() {
-    const url = this._PREFIX + '/options.json';
-    
-    if (this._Options)
-        return this._Options;
-    
-    const data = await load.json(url);
-    
-    this._Options = data;
-    
-    return data;
-};
-
-Qword.prototype.enableKey = function() {
-    this._isKey = true;
-    return this;
-};
-
-Qword.prototype.clearHistory = function() {
-    if (!this._view)
-        return this;
-    
-    this._view.dispatch({
-        effects: this._historyCompartment.reconfigure(this._vimEnabled ? [] : [
-            history(),
-            keymap.of(historyKeymap),
-        ]),
-    });
-    
-    const {cm} = this._view;
-    
-    cm.state.vim.undoHistory = [];
-    cm.state.vim.redoHistory = [];
-    cm.state.vim.globalState.jumpList = [];
-    
-    return this;
-};
