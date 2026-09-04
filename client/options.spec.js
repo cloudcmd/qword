@@ -17,52 +17,52 @@ function makeView() {
         }),
         parent: element,
     });
-
+    
     view._themeCompartment = new Compartment();
     view._keymapCompartment = new Compartment();
     view._langCompartment = new Compartment();
-
+    
     return view;
 }
 
 test('options: keymapExtension default returns extension object', (t) => {
     const result = keymapExtension('default');
-
+    
     t.ok(result);
     t.end();
 });
 
 test('options: keymapExtension vim returns extension object', (t) => {
     const result = keymapExtension('vim');
-
+    
     t.ok(result);
     t.end();
 });
 
 test('options: keymapExtension emacs returns extension object', (t) => {
     const result = keymapExtension('emacs');
-
+    
     t.ok(result);
     t.end();
 });
 
 test('options: themeExtension nord returns nord theme object', (t) => {
     const result = themeExtension('nord');
-
+    
     t.ok(result);
     t.end();
 });
 
 test('options: themeExtension dark returns nord theme', (t) => {
     const result = themeExtension('dark');
-
+    
     t.equal(result, themeExtension('nord'));
     t.end();
 });
 
 test('options: themeExtension one-dark returns nord theme', (t) => {
     const result = themeExtension('one-dark');
-
+    
     t.equal(result, themeExtension('nord'));
     t.end();
 });
@@ -70,35 +70,35 @@ test('options: themeExtension one-dark returns nord theme', (t) => {
 test('options: themeExtension default returns empty array', (t) => {
     const result = themeExtension('default');
     const expected = [];
-
+    
     t.deepEqual(result, expected);
     t.end();
 });
 
 test('options: languageExtension javascript returns extension object', (t) => {
     const result = languageExtension('javascript');
-
+    
     t.ok(result);
     t.end();
 });
 
 test('options: languageExtension js returns javascript extension', (t) => {
     const result = languageExtension('js');
-
+    
     t.ok(result);
     t.end();
 });
 
 test('options: languageExtension json returns extension', (t) => {
     const result = languageExtension('json');
-
+    
     t.ok(result);
     t.end();
 });
 
 test('options: languageExtension html returns extension', (t) => {
     const result = languageExtension('html');
-
+    
     t.ok(result);
     t.end();
 });
@@ -108,7 +108,7 @@ test('options: languageExtension object with javascript name returns extension',
         name: 'javascript',
         json: true,
     });
-
+    
     t.ok(result);
     t.end();
 });
@@ -116,7 +116,7 @@ test('options: languageExtension object with javascript name returns extension',
 test('options: languageExtension unknown string returns empty array', (t) => {
     const result = languageExtension('css');
     const expected = [];
-
+    
     t.deepEqual(result, expected);
     t.end();
 });
@@ -124,7 +124,7 @@ test('options: languageExtension unknown string returns empty array', (t) => {
 test('options: languageExtension null returns empty array', (t) => {
     const result = languageExtension(null);
     const expected = [];
-
+    
     t.deepEqual(result, expected);
     t.end();
 });
@@ -133,7 +133,7 @@ test('options: setOption theme dispatches without throwing', (t) => {
     const view = makeView();
     setOption(view, 'theme', 'nord');
     view.destroy();
-
+    
     t.ok(true);
     t.end();
 });
@@ -142,7 +142,7 @@ test('options: setOption keyMap dispatches without throwing', (t) => {
     const view = makeView();
     setOption(view, 'keyMap', 'vim');
     view.destroy();
-
+    
     t.ok(true);
     t.end();
 });
@@ -151,7 +151,7 @@ test('options: setOption mode dispatches without throwing', (t) => {
     const view = makeView();
     setOption(view, 'mode', 'javascript');
     view.destroy();
-
+    
     t.ok(true);
     t.end();
 });

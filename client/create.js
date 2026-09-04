@@ -30,18 +30,18 @@ export function createEditor(element, options = {}) {
         foldGutter: fold = false,
         updateListener,
     } = options;
-
+    
     const themeCompartment = new Compartment();
     const keymapCompartment = new Compartment();
     const langCompartment = new Compartment();
     const historyCompartment = new Compartment();
-
+    
     const hideCursorOnBlur = EditorView.theme({
         '&:not(.cm-focused) .cm-fat-cursor': {
             display: 'none',
         },
     });
-
+    
     const extensions = [
         historyCompartment.of([
             history(),
@@ -53,14 +53,23 @@ export function createEditor(element, options = {}) {
         keymapCompartment.of(keymapExtension(keyMap)),
         langCompartment.of(languageExtension(mode)),
         syntaxHighlighting(highlightStyle),
-        ...lineNumbers ? [lineNumbersExtension()] : [],
-        ...fold ? [foldGutter(), codeFolding()] : [],
-        ...readOnly ? [EditorState.readOnly.of(true)] : [],
-        ...updateListener ? [EditorView.updateListener.of(updateListener)] : [],
+        ...lineNumbers ? [
+            lineNumbersExtension(),
+        ] : [],
+        ...fold ? [
+            foldGutter(),
+            codeFolding(),
+        ] : [],
+        ...readOnly ? [
+            EditorState.readOnly.of(true),
+        ] : [],
+        ...updateListener ? [
+            EditorView.updateListener.of(updateListener),
+        ] : [],
         drawSelection(),
         hideCursorOnBlur,
     ];
-
+    
     const view = new EditorView({
         state: EditorState.create({
             doc: value,
@@ -68,11 +77,11 @@ export function createEditor(element, options = {}) {
         }),
         parent: element,
     });
-
+    
     view._themeCompartment = themeCompartment;
     view._keymapCompartment = keymapCompartment;
     view._langCompartment = langCompartment;
     view._historyCompartment = historyCompartment;
-
+    
     return view;
 }

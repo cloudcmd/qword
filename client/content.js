@@ -3,7 +3,11 @@ export const getDocValue = getValue;
 
 export function setValue(view, value) {
     view.dispatch({
-        changes: {from: 0, to: view.state.doc.length, insert: value},
+        changes: {
+            from: 0,
+            to: view.state.doc.length,
+            insert: value,
+        },
     });
 }
 

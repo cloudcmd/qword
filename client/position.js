@@ -23,7 +23,7 @@ export function indexFromPos(view, position) {
 export function getCursor(view) {
     const index = getCursorIndex(view);
     const position = offsetToPosition(view.state.doc, index);
-
+    
     return {
         row: position.line,
         column: position.ch,

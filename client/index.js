@@ -22,7 +22,11 @@ export {
 } from './decorations.js';
 export {on, off} from './events.js';
 export {getScrollInfo, scrollTo} from './scroll.js';
-export {getView, refresh, observeResize} from './dom.js';
+export {
+    getView,
+    refresh,
+    observeResize,
+} from './dom.js';
 export {
     keymapExtension,
     themeExtension,

@@ -1,8 +1,8 @@
 {
     "exclude": [
         "**/*.spec.js",
-        "**/.madrun.js",
         "**/*.config.*",
+        "**/.madrun.js",
         "client/qword.js",
         "client/_clipboard.js",
         "client/_init-socket.js",
