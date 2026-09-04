@@ -30,6 +30,7 @@
     "start:dev": "madrun start:dev",
     "lint": "madrun lint",
     "test": "madrun test",
+    "test:dts": "madrun test:dts",
     "coverage": "madrun coverage",
     "fresh:lint": "madrun fresh:lint",
     "lint:fresh": "madrun lint:fresh",
