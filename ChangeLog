@@ -1,3 +1,17 @@
+2026.09.05, v1.1.0
+
+fix:
+- 34a981c client: clipboard
+
+feature:
+- 83e40e6 qword: cssnano v9.0.2
+- 2f29f72 types: add
+- 58fce83 migrate to rspack
+- 03bb806 qword: @lezer/highlight v1.2.3
+- c5cf54a qword: superc8 v12.7.0
+- 51d8bc5 editor: move out
+- 3d791d7 qword: @putout/plugin-convert-webpack-to-rspack v1.0.1
+
 2026.05.18, v1.0.3
 
 fix:
