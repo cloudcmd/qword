@@ -1,3 +1,8 @@
+2026.09.05, v1.1.2
+
+feature:
+- d6b691f qword: add indentWithTab and indentUnit support
+
 2026.09.05, v1.1.1
 
 fix:
