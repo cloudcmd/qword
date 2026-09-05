@@ -15,12 +15,22 @@ import _onSave from './_on-save.js';
 import showMessage from './show-message.js';
 import loadRemote, {loadModules, loadOptions} from './loadremote.js';
 
+const isString = (a) => typeof a === 'string';
+
 const noop = () => {};
 
-export default class Qword extends Editor {
+export default function Qword(el, options, callback) {
+    if (isString(el))
+        el = document.querySelector(el);
+    
+    return new MainQword(el, options, callback);
+}
+
+class MainQword extends Editor {
     constructor(element, options = {}, callback = noop) {
         super(element, options);
         
+        this._initSocket = _initSocket;
         this._TITLE = 'Qword';
         this._story = Story();
         this._savedValue = '';
@@ -183,5 +193,5 @@ export default class Qword extends Editor {
 Qword.prototype._clipboard = _clipboard;
 Qword.prototype.save = save;
 Qword.prototype._onSave = _onSave;
-Qword.prototype._initSocket = _initSocket;
 Qword.prototype.showMessage = showMessage;
+
