@@ -14,11 +14,11 @@ export const loadOptions = once(async (prefix) => {
     return await load.json(url);
 });
 
-const on = async (remote) => {
+const on = async ({remote, local}) => {
     const [error] = await tryToCatch(load.parallel, remote);
     
     if (error)
-        await off();
+        await off(local);
 };
 
 const off = async function(local) {
@@ -59,22 +59,19 @@ export default async (name, options = {}) => {
         local = [module.local];
     }
     
-    local = [];
+    local = local.map((url) => prefix + url);
     
-    for (const url of local) {
-        local.push(prefix + url);
-    }
-    
-    const remote = [];
-    
-    for (const tmpl of remoteTmpls) {
-        remote.push(tmpl.replace(/{{\sversion\s}}/g, version));
-    }
+    const remote = remoteTmpls.map((tmpl) => {
+        return tmpl.replace(/{{\s*version\s*}}/g, version);
+    });
     
     if (!online)
         return await off(local);
     
-    await on(remote);
+    await on({
+        remote,
+        local,
+    });
 };
 
 function binom(name, array) {
