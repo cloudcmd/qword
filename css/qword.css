@@ -1,3 +1,29 @@
+:root {
+    --hl-comment: #586e75;
+    --hl-base:    #93a1a1;
+    --hl-green:   #859900;
+    --hl-orange:  #cb4b16;
+    --hl-cyan:    #2aa198;
+    --hl-red:     #dc322f;
+    --hl-blue:    #268bd2;
+    --hl-yellow:  #b58900;
+    --hl-name:    #555;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --hl-comment: #616e88;
+        --hl-base:    #d8dee9;
+        --hl-green:   #a3be8c;
+        --hl-orange:  #d08770;
+        --hl-cyan:    #88c0d0;
+        --hl-red:     #bf616a;
+        --hl-blue:    #81a1c1;
+        --hl-yellow:  #ebcb8b;
+        --hl-name:    #d8dee9;
+    }
+}
+
 .dword-msg {
     z-index: 2;
     background-color: #7285b7;
@@ -10,11 +36,25 @@
     transition: ease 0.5s;
 }
 
-.CodeMirror {
+.cm-editor {
     height: 100%;
-    font-family: 'Droid Sans Mono';
-}
-
-.CodeMirror.cm-s-pastel-on-dark {
+    font-family: 'Droid Sans Mono', monospace;
     font-size: 16px;
 }
+
+.cm-editor .hl-keyword        { color: var(--hl-green); }
+.cm-editor .hl-module-keyword { color: var(--hl-green); }
+.cm-editor .hl-constant       { color: var(--hl-orange); }
+.cm-editor .hl-string         { color: var(--hl-cyan); }
+.cm-editor .hl-number         { color: var(--hl-cyan); }
+.cm-editor .hl-comment        { color: var(--hl-comment); font-style: italic; }
+.cm-editor .hl-name           { color: var(--hl-name); }
+.cm-editor .hl-function       { color: var(--hl-blue); }
+.cm-editor .hl-class          { color: var(--hl-blue); }
+.cm-editor .hl-type           { color: var(--hl-red); }
+.cm-editor .hl-operator       { color: var(--hl-green); }
+.cm-editor .hl-punctuation    { color: var(--hl-base); }
+.cm-editor .hl-regexp         { color: var(--hl-red); }
+.cm-editor .hl-escape         { color: var(--hl-orange); }
+.cm-editor .hl-tag            { color: var(--hl-blue); }
+.cm-editor .hl-attr           { color: var(--hl-base); }
