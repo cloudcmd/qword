@@ -10,6 +10,7 @@ import {
     foldGutter,
     codeFolding,
     syntaxHighlighting,
+    indentUnit,
 } from '@codemirror/language';
 import {highlightStyle} from './highlight.js';
 import {
@@ -53,6 +54,7 @@ export function createEditor(element, options = {}) {
         keymapCompartment.of(keymapExtension(keyMap)),
         langCompartment.of(languageExtension(mode)),
         syntaxHighlighting(highlightStyle),
+        indentUnit.of('    '),
         ...lineNumbers
             ? [
                 lineNumbersExtension(),

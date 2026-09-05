@@ -15,9 +15,9 @@ export function keymapExtension(name) {
         return vim();
     
     if (name === 'emacs')
-        return keymap.of(emacsStyleKeymap);
+        return keymap.of([...emacsStyleKeymap, indentWithTab]);
     
-    return keymap.of(defaultKeymap);
+    return keymap.of([...defaultKeymap, indentWithTab]);
 }
 
 export function themeExtension(name) {
