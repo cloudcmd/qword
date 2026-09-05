@@ -31,6 +31,7 @@ export {
     keymapExtension,
     themeExtension,
     languageExtension,
+    indentKeymap,
     setOption,
 } from './options.js';
 export {clearHistory} from './history.js';

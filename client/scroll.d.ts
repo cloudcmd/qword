@@ -8,3 +8,4 @@ export type ScrollInfo = {
 export const getScrollInfo: (view: EditorView) => ScrollInfo;
 
 export function scrollTo(view: EditorView, left: number, top: number): void;
+

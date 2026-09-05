@@ -7,6 +7,7 @@ import {nord} from '@uiw/codemirror-theme-nord';
 import {
     defaultKeymap,
     emacsStyleKeymap,
+    indentWithTab,
 } from '@codemirror/commands';
 
 export function keymapExtension(name) {
@@ -25,6 +26,8 @@ export function themeExtension(name) {
     
     return [];
 }
+
+export const indentKeymap = keymap.of([indentWithTab]);
 
 export function languageExtension(mode) {
     const name = typeof mode === 'object' ? mode?.name : mode;

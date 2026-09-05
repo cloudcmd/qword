@@ -18,7 +18,11 @@ export type KeyMap =
     | 'default';
 
 // Editor theme name.
-export type EditorTheme = 'nord' | 'default' | 'dark' | 'one-dark';
+export type EditorTheme =
+    | 'nord'
+    | 'default'
+    | 'dark'
+    | 'one-dark';
 
 // JavaScript/TypeScript source code.
 export type SourceCode = string;

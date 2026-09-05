@@ -30,3 +30,4 @@ export type QwordEditorView = EditorView & {
 };
 
 export function createEditor(element: Element, options?: CreateEditorOptions): QwordEditorView;
+

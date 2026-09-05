@@ -1,9 +1,6 @@
 import type {Text} from '@codemirror/state';
 import type {EditorView} from '@codemirror/view';
-import type {
-    CharOffset,
-    SourcePosition,
-} from './types.js';
+import type {CharOffset, SourcePosition} from './types.js';
 
 export function offsetToPosition(document_: Text, offset: CharOffset): SourcePosition;
 
@@ -19,3 +16,4 @@ export function getCursor(view: EditorView): {
 };
 
 export function getCursorIndex(view: EditorView): CharOffset;
+

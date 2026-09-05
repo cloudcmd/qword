@@ -1,4 +1,4 @@
-import {type Compartment, type Extension} from '@codemirror/state';
+import {type Extension} from '@codemirror/state';
 import type {QwordEditorView} from './create.js';
 import type {
     KeyMap,
@@ -28,3 +28,4 @@ export type OptionValue =
     | null;
 
 export function setOption(view: QwordEditorView, key: OptionKey, value: OptionValue): void;
+

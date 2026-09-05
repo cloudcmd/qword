@@ -92,6 +92,7 @@ export default class Qword extends Editor {
             return;
         
         const line = this._view.state.doc.line(number);
+        
         this._view.dispatch({
             selection: {
                 anchor: line.from,
@@ -108,6 +109,7 @@ export default class Qword extends Editor {
         
         if (direction === 'right') {
             const end = isCollapsed ? to + 1 : to;
+            
             this._view.dispatch({
                 changes: {
                     from,
@@ -133,6 +135,7 @@ export default class Qword extends Editor {
     
     selectAll() {
         const {doc} = this._view.state;
+        
         this._view.dispatch({
             selection: {
                 anchor: 0,
@@ -172,6 +175,7 @@ export default class Qword extends Editor {
             ._story
             .checkHash(path)
             .catch(() => false);
+        
         return equal ? '' : createPatch(this._savedValue || '', this.getValue());
     }
 }

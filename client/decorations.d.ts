@@ -2,7 +2,6 @@ import {
     type Range,
     StateEffect,
     StateField,
-    type Transaction,
 } from '@codemirror/state';
 import {
     Decoration,
@@ -29,12 +28,11 @@ export type MarkHandle = {
     clear: () => void;
 };
 
-export function markText(view: EditorView, from: SourcePosition, to: SourcePosition, {
-    className,
-}: {
+export function markText(view: EditorView, from: SourcePosition, to: SourcePosition, {className}: {
     className: string;
 }): MarkHandle;
 
 export function addLineClass(view: EditorView, line: number, _where: string, className: string): void;
 
 export function removeLineClass(view: EditorView, line: number, _where: string, className: string): void;
+

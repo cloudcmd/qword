@@ -78,6 +78,7 @@ test('edit: merges options from user config', async (t) => {
             theme: 'dark',
         },
     }));
+    
     setConfigPath(file);
     const response = await request(makeApp()).get('/edit.json');
     

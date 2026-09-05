@@ -18,4 +18,3 @@ setOption(view, 'bogus', 'dark');
 
 // THROWS Argument of type '5' is not assignable to parameter of type 'OptionValue'
 setOption(view, 'theme', 5);
-
