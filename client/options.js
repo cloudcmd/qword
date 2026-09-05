@@ -1,8 +1,7 @@
 import {keymap} from '@codemirror/view';
-import {javascriptLanguage} from '@codemirror/lang-javascript';
-import {jsonLanguage} from '@codemirror/lang-json';
-import {htmlLanguage} from '@codemirror/lang-html';
-import {indentOnInput} from '@codemirror/language';
+import {javascript} from '@codemirror/lang-javascript';
+import {json} from '@codemirror/lang-json';
+import {html} from '@codemirror/lang-html';
 import {vim} from '@replit/codemirror-vim';
 import {nord} from '@uiw/codemirror-theme-nord';
 import {
@@ -34,13 +33,13 @@ export function languageExtension(mode) {
     const name = typeof mode === 'object' ? mode?.name : mode;
     
     if (name === 'javascript' || name === 'js')
-        return [javascriptLanguage, indentOnInput()];
+        return javascript();
     
     if (name === 'json')
-        return [jsonLanguage, indentOnInput()];
+        return json();
     
     if (name === 'html')
-        return [htmlLanguage, indentOnInput()];
+        return html();
     
     return [];
 }
