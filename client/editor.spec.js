@@ -299,6 +299,17 @@ test('Editor: emit calls registered handler', async (t) => {
     t.end();
 });
 
+test('Editor: setOptions sets font size', (t) => {
+    const editor = makeEditor();
+    
+    editor.setOptions({
+        fontSize: 20,
+    });
+    
+    t.ok(editor);
+    t.end();
+});
+
 test('Editor: _view getter returns EditorView', (t) => {
     const editor = makeEditor();
     

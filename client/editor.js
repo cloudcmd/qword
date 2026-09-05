@@ -1,4 +1,5 @@
 import Emitify from 'emitify';
+import {EditorView} from '@codemirror/view';
 import {createEditor} from './create.js';
 import {getValue, setValue} from './content.js';
 import {
@@ -155,6 +156,19 @@ export default class Editor {
     
     emit(...args) {
         this.#emitter.emit(...args);
+        return this;
+    }
+    
+    setOptions(options = {}) {
+        if (options.fontSize)
+            this._view.dispatch({
+                effects: this._view._themeCompartment.reconfigure(EditorView.theme({
+                    '&': {
+                        fontSize: `${options.fontSize}px`,
+                    },
+                })),
+            });
+        
         return this;
     }
     
