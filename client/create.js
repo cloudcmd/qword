@@ -6,6 +6,7 @@ import {
     keymap,
 } from '@codemirror/view';
 import {history, historyKeymap} from '@codemirror/commands';
+import {closeBrackets, closeBracketsKeymap} from '@codemirror/autocomplete';
 import {
     foldGutter,
     codeFolding,
@@ -53,6 +54,8 @@ export function createEditor(element, options = {}) {
         lineField,
         themeCompartment.of(themeExtension(theme)),
         keymapCompartment.of(keymapExtension(keyMap)),
+        closeBrackets(),
+        keymap.of(closeBracketsKeymap),
         langCompartment.of(languageExtension(mode)),
         syntaxHighlighting(highlightStyle),
         indentOnInput(),
