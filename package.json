@@ -5,18 +5,54 @@
   "main": "./server/index.js",
   "exports": {
     ".": "./server/index.js",
-    "./client": "./client/index.js",
-    "./client/editor": "./client/editor.js",
-    "./client/create": "./client/create.js",
-    "./client/content": "./client/content.js",
-    "./client/position": "./client/position.js",
-    "./client/decorations": "./client/decorations.js",
-    "./client/events": "./client/events.js",
-    "./client/scroll": "./client/scroll.js",
-    "./client/dom": "./client/dom.js",
-    "./client/options": "./client/options.js",
-    "./client/history": "./client/history.js",
-    "./client/highlight": "./client/highlight.js"
+    "./client": {
+      "types": "./client/index.d.ts",
+      "default": "./client/index.js"
+    },
+    "./client/editor": {
+      "types": "./client/editor.d.ts",
+      "default": "./client/editor.js"
+    },
+    "./client/create": {
+      "types": "./client/create.d.ts",
+      "default": "./client/create.js"
+    },
+    "./client/content": {
+      "types": "./client/content.d.ts",
+      "default": "./client/content.js"
+    },
+    "./client/position": {
+      "types": "./client/position.d.ts",
+      "default": "./client/position.js"
+    },
+    "./client/decorations": {
+      "types": "./client/decorations.d.ts",
+      "default": "./client/decorations.js"
+    },
+    "./client/events": {
+      "types": "./client/events.d.ts",
+      "default": "./client/events.js"
+    },
+    "./client/scroll": {
+      "types": "./client/scroll.d.ts",
+      "default": "./client/scroll.js"
+    },
+    "./client/dom": {
+      "types": "./client/dom.d.ts",
+      "default": "./client/dom.js"
+    },
+    "./client/options": {
+      "types": "./client/options.d.ts",
+      "default": "./client/options.js"
+    },
+    "./client/history": {
+      "types": "./client/history.d.ts",
+      "default": "./client/history.js"
+    },
+    "./client/highlight": {
+      "types": "./client/highlight.d.ts",
+      "default": "./client/highlight.js"
+    }
   },
   "type": "module",
   "bin": {
