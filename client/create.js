@@ -6,13 +6,13 @@ import {
     keymap,
 } from '@codemirror/view';
 import {history, historyKeymap} from '@codemirror/commands';
-import {closeBrackets, closeBracketsKeymap} from '@codemirror/autocomplete';
 import {
     foldGutter,
     codeFolding,
     syntaxHighlighting,
     indentOnInput,
     indentUnit,
+    bracketMatching,
 } from '@codemirror/language';
 import {highlightStyle} from './highlight.js';
 import {
@@ -54,8 +54,7 @@ export function createEditor(element, options = {}) {
         lineField,
         themeCompartment.of(themeExtension(theme)),
         keymapCompartment.of(keymapExtension(keyMap)),
-        closeBrackets(),
-        keymap.of(closeBracketsKeymap),
+        bracketMatching(),
         langCompartment.of(languageExtension(mode)),
         syntaxHighlighting(highlightStyle),
         indentOnInput(),
