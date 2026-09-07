@@ -19,7 +19,7 @@ import {
     keymapExtension,
     themeExtension,
     languageExtension,
-} from './options.js';
+} from './options/options.js';
 import {markField, lineField} from './decorations.js';
 
 export function createEditor(element, options = {}) {

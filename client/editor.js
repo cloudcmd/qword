@@ -12,7 +12,7 @@ import {
     addLineClass,
     removeLineClass,
 } from './decorations.js';
-import {setOption} from './options.js';
+import {setOption} from './options/options.js';
 import {clearHistory} from './history.js';
 import {observeResize} from './dom.js';
 

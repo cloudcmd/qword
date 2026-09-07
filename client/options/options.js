@@ -12,6 +12,8 @@ import {
     insertNewlineAndIndent,
 } from '@codemirror/commands';
 
+import {keepIndentAfterEnterVim} from './vim/keep-indent-after-enter-vim.js';
+
 const enterKeepIndent = {
     key: 'Enter',
     run: insertNewlineAndIndent,
@@ -19,7 +21,10 @@ const enterKeepIndent = {
 
 export function keymapExtension(name) {
     if (name === 'vim')
-        return vim();
+        return keymap.of([
+            vim(),
+            keepIndentAfterEnterVim,
+        ]);
     
     if (name === 'emacs')
         return keymap.of([...emacsStyleKeymap, indentWithTab]);

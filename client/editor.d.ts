@@ -3,7 +3,7 @@ import {
     type CreateEditorOptions,
 } from './create.js';
 import type {MarkHandle} from './decorations.js';
-import type {OptionKey, OptionValue} from './options.js';
+import type {OptionKey, OptionValue} from './options/options.js';
 import type {
     SourceCode,
     SourcePosition,

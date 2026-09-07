@@ -33,6 +33,6 @@ export {
     languageExtension,
     indentKeymap,
     setOption,
-} from './options.js';
+} from './options/options.js';
 export {clearHistory} from './history.js';
 export {highlightStyle} from './highlight.js';

@@ -47,7 +47,7 @@ export {
     setOption,
     type OptionKey,
     type OptionValue,
-} from './options.js';
+} from './options/options.js';
 export {clearHistory} from './history.js';
 export {highlightStyle} from './highlight.js';
 export type {

@@ -1,10 +1,10 @@
 import {type Extension} from '@codemirror/state';
-import type {QwordEditorView} from './create.js';
+import type {QwordEditorView} from '../create.js';
 import type {
     KeyMap,
     EditorMode,
     EditorTheme,
-} from './types.js';
+} from '../types.js';
 
 export function keymapExtension(name: KeyMap): Extension;
 
