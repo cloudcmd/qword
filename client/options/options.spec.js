@@ -167,11 +167,14 @@ test('options: keymapExtension default has Enter before defaultKeymap', (t) => {
 function makeViewWithKeymapCompartment(name) {
     const compartment = new Compartment();
     const element = document.createElement('div');
+    
     document.body.appendChild(element);
     const view = new EditorView({
         state: EditorState.create({
             doc: '',
-            extensions: [compartment.of(keymapExtension(name))],
+            extensions: [
+                compartment.of(keymapExtension(name)),
+            ],
         }),
         parent: element,
     });
@@ -190,8 +193,12 @@ test('options: keymapExtension vim returns array not wrapped in keymap.of', (t) 
 
 test('options: keymapExtension vim can be reconfigured after switching to default', (t) => {
     const view = makeViewWithKeymapCompartment('vim');
-    view.dispatch({effects: view._keymapCompartment.reconfigure(keymapExtension('default'))});
-    view.dispatch({effects: view._keymapCompartment.reconfigure(keymapExtension('vim'))});
+    view.dispatch({
+        effects: view._keymapCompartment.reconfigure(keymapExtension('default')),
+    });
+    view.dispatch({
+        effects: view._keymapCompartment.reconfigure(keymapExtension('vim')),
+    });
     view.destroy();
     
     t.ok(true);
@@ -205,4 +212,3 @@ test('options: themeExtension unknown returns empty array', (t) => {
     t.deepEqual(result, expected);
     t.end();
 });
-

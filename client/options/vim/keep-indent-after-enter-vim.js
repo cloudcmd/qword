@@ -1,4 +1,4 @@
-import {EditorState, Prec} from '@codemirror/state';
+import {EditorState} from '@codemirror/state';
 
 export const keepIndentAfterEnterVim = EditorState.transactionFilter.of((tr) => {
     if (!tr.docChanged)
@@ -15,38 +15,41 @@ export const keepIndentAfterEnterVim = EditorState.transactionFilter.of((tr) => 
     if (pos !== line.from)
         return tr;
     
-    let insertedNewline = false;
-    
-    tr.changes.iterChanges((fromA, toA, fromB, toB, inserted) => {
-        if (inserted.toString().includes('\n'))
-            insertedNewline = true;
-    });
-    
-    if (!insertedNewline)
-        return tr;
-    
-    // Берём indentation предыдущей строки.
     if (line.number === 1)
         return tr;
     
     const previousLine = tr.newDoc.line(line.number - 1);
-    const match = previousLine.text.match(/^\s*/);
-    const indent = match?.[0] || '';
+    const indent = previousLine.text.match(/^\s*/)?.[0] || '';
     
     if (!indent)
+        return tr;
+    
+    let insertedNewline = false;
+    let alreadyIndented = false;
+    
+    tr.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
+        const text = inserted.toString();
+        
+        if (text.includes('\n'))
+            insertedNewline = true;
+        
+        if (text.endsWith(`\n${indent}`))
+            alreadyIndented = true;
+    });
+    
+    if (!insertedNewline || alreadyIndented)
         return tr;
     
     return [
         tr, {
             changes: {
                 from: pos,
-                to: pos,
                 insert: indent,
             },
             selection: {
                 anchor: pos + indent.length,
             },
+            sequential: true,
         },
     ];
 });
-
