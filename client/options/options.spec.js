@@ -205,6 +205,7 @@ test('options: keymapExtension vim can be reconfigured after switching to defaul
     t.end();
 });
 
+
 test('options: themeExtension unknown returns empty array', (t) => {
     const result = themeExtension('unknown');
     const expected = [];
@@ -212,3 +213,15 @@ test('options: themeExtension unknown returns empty array', (t) => {
     t.deepEqual(result, expected);
     t.end();
 });
+
+test('options: setOption keyMap vim dispatches without throwing after round-trip', (t) => {
+    const view = makeViewWithKeymapCompartment('default');
+    setOption(view, 'keyMap', 'vim');
+    setOption(view, 'keyMap', 'default');
+    setOption(view, 'keyMap', 'vim');
+    view.destroy();
+
+    t.ok(true);
+    t.end();
+});
+
