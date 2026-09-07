@@ -8,7 +8,10 @@ import {
     defaultKeymap,
     emacsStyleKeymap,
     indentWithTab,
+    insertNewlineKeepIndent,
 } from '@codemirror/commands';
+
+const enterKeepIndent = {key: 'Enter', run: insertNewlineKeepIndent};
 
 export function keymapExtension(name) {
     if (name === 'vim')
@@ -17,7 +20,7 @@ export function keymapExtension(name) {
     if (name === 'emacs')
         return keymap.of([...emacsStyleKeymap, indentWithTab]);
     
-    return keymap.of([...defaultKeymap, indentWithTab]);
+    return keymap.of([enterKeepIndent, indentWithTab, ...defaultKeymap]);
 }
 
 export function themeExtension(name) {

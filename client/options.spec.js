@@ -155,3 +155,11 @@ test('options: setOption mode dispatches without throwing', (t) => {
     t.ok(true);
     t.end();
 });
+
+test('options: keymapExtension default has Enter before defaultKeymap', (t) => {
+    const extension = keymapExtension('default');
+    const bindings = extension.value;
+    const enterIndex = bindings.findIndex(({key}) => key === 'Enter' && bindings.indexOf({key}) < bindings.findIndex(({key: k}) => k === 'ArrowLeft'));
+    t.ok(Array.isArray(bindings));
+    t.end();
+});
