@@ -59,12 +59,7 @@ export default async (name, options = {}) => {
         local = [module.local];
     }
     
-    local = [];
-    
-    for (const url of local) {
-        local.push(prefix + url);
-    }
-    
+    local = local.map((url) => prefix + url);
     const remote = [];
     
     for (const tmpl of remoteTmpls) {
@@ -100,3 +95,4 @@ function binom(name, array) {
     
     return ret;
 }
+
