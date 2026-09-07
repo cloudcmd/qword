@@ -1,3 +1,9 @@
+2026.09.07, v1.1.17
+
+fix:
+- 1ab4367 client: options: vim: keep indent after second enter
+- 7bde795 client: options: vim returns array with keepIndentAfterEnterVim
+
 2026.09.07, v1.1.16
 
 fix:
