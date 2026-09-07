@@ -1,3 +1,8 @@
+2026.09.07, v1.1.18
+
+feature:
+- 587085d client: keep-indent-after-vim-paste
+
 2026.09.07, v1.1.17
 
 fix:
