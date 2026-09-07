@@ -38,9 +38,8 @@ test('normalizeVimPaste: no-op when selection not empty', (t) => {
         selection: {anchor: 0, head: 2},
         userEvent: 'input.type.compose',
     }).state;
-    const lines = next.doc.toString().split('\n');
     
-    t.equal(lines[0], '');
+    t.equal(next.doc.lines, 2);
     t.end();
 });
 
