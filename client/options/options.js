@@ -21,10 +21,7 @@ const enterKeepIndent = {
 
 export function keymapExtension(name) {
     if (name === 'vim')
-        return keymap.of([
-            vim(),
-            keepIndentAfterEnterVim,
-        ]);
+        return [vim(), keepIndentAfterEnterVim];
     
     if (name === 'emacs')
         return keymap.of([...emacsStyleKeymap, indentWithTab]);
