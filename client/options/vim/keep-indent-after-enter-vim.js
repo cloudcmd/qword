@@ -26,6 +26,7 @@ export const keepIndentAfterEnterVim = EditorState.transactionFilter.of((tr) => 
     
     let insertedNewline = false;
     let alreadyIndented = false;
+    let isMultilinePaste = false;
     
     tr.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
         const text = inserted.toString();
@@ -33,11 +34,14 @@ export const keepIndentAfterEnterVim = EditorState.transactionFilter.of((tr) => 
         if (text.includes('\n'))
             insertedNewline = true;
         
+        if (text.split('\n').length > 2)
+            isMultilinePaste = true;
+        
         if (text.endsWith(`\n${indent}`))
             alreadyIndented = true;
     });
     
-    if (!insertedNewline || alreadyIndented)
+    if (!insertedNewline || alreadyIndented || isMultilinePaste)
         return tr;
     
     return [
