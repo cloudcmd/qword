@@ -6,10 +6,6 @@
 .*
 ./src/index.js
 
-bower.json
-webpack.config.js
+*.config.*
 
-client
-modules/execon
-modules/jshint
 coverage
