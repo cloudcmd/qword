@@ -9,7 +9,6 @@ import {
     emacsStyleKeymap,
     indentWithTab,
     insertNewlineAndIndent,
-    insertNewlineKeepIndent,
 } from '@codemirror/commands';
 
 const enterWithIndent = {
