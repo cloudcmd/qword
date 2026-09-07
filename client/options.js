@@ -4,16 +4,17 @@ import {json} from '@codemirror/lang-json';
 import {html} from '@codemirror/lang-html';
 import {vim} from '@replit/codemirror-vim';
 import {nord} from '@uiw/codemirror-theme-nord';
+import {Prec} from '@codemirror/state';
 import {
     defaultKeymap,
     emacsStyleKeymap,
     indentWithTab,
-    insertNewlineAndIndent,
+    insertNewlineKeepIndent,
 } from '@codemirror/commands';
 
-const enterWithIndent = {
+const enterKeepIndent = {
     key: 'Enter',
-    run: insertNewlineAndIndent,
+    run: insertNewlineKeepIndent,
 };
 
 export function keymapExtension(name) {
@@ -23,7 +24,7 @@ export function keymapExtension(name) {
     if (name === 'emacs')
         return keymap.of([...emacsStyleKeymap, indentWithTab]);
     
-    return keymap.of([enterWithIndent, indentWithTab, ...defaultKeymap]);
+    return Prec.highest(keymap.of([enterKeepIndent, indentWithTab, ...defaultKeymap]));
 }
 
 export function themeExtension(name) {
@@ -66,3 +67,4 @@ export function setOption(view, key, value) {
             effects: view._langCompartment.reconfigure(languageExtension(value)),
         });
 }
+
