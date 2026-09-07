@@ -29,6 +29,7 @@ test('keepIndentAfterEnterVim: no-op when no newline inserted', (t) => {
             insert: 'x',
         },
     }).state;
+    
     const result = next.doc.toString();
     const expected = '    hellox';
     
@@ -39,9 +40,11 @@ test('keepIndentAfterEnterVim: no-op when no newline inserted', (t) => {
 test('keepIndentAfterEnterVim: first Enter copies indent from previous line', (t) => {
     const state = makeState('    hello');
     const next = pressEnter(state);
+    
     const lines = next.doc
         .toString()
         .split('\n');
+    
     const result = lines[1].startsWith('    ');
     
     t.ok(result);
@@ -51,6 +54,7 @@ test('keepIndentAfterEnterVim: first Enter copies indent from previous line', (t
 test('keepIndentAfterEnterVim: second Enter does not double indent', (t) => {
     const state = makeState('    hello');
     const next = pressEnter(pressEnter(state));
+    
     const lines = next.doc
         .toString()
         .split('\n');
@@ -62,6 +66,7 @@ test('keepIndentAfterEnterVim: second Enter does not double indent', (t) => {
 test('keepIndentAfterEnterVim: no-op when previous line has no indent', (t) => {
     const state = makeState('hello');
     const next = pressEnter(state);
+    
     const lines = next.doc
         .toString()
         .split('\n');
@@ -106,5 +111,59 @@ test('keepIndentAfterEnterVim: no-op when insert position is not at line start a
         .split('\n');
     
     t.equal(lines[1], 'hello');
+    t.end();
+});
+
+test('keepIndentAfterEnterVim: no-op when doc is not changed', (t) => {
+    const state = makeState('    hello');
+    const next = state.update({
+        selection: {
+            anchor: 0,
+        },
+    }).state;
+    const result = next.doc.toString();
+    const expected = '    hello';
+    
+    t.equal(result, expected);
+    t.end();
+});
+
+test('keepIndentAfterEnterVim: no-op when selection is not empty', (t) => {
+    const state = makeState('    hello');
+    const next = state.update({
+        changes: {
+            from: 0,
+            insert: 'x',
+        },
+        selection: {
+            anchor: 0,
+            head: 2,
+        },
+    }).state;
+    
+    const result = next.doc.toString();
+    const expected = 'x    hello';
+    
+    t.equal(result, expected);
+    t.end();
+});
+
+test('keepIndentAfterEnterVim: no-op when newline comes with indent', (t) => {
+    const state = makeState('    hello');
+    const next = state.update({
+        changes: {
+            from: 9,
+            insert: '\n    ',
+        },
+        selection: {
+            anchor: 10,
+        },
+    }).state;
+    
+    const lines = next.doc
+        .toString()
+        .split('\n');
+    
+    t.equal(lines[1], '    ');
     t.end();
 });
