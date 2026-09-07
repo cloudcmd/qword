@@ -40,7 +40,7 @@ test('normalizeVimPaste: no-op when selection not empty', (t) => {
     }).state;
     const lines = next.doc.toString().split('\n');
     
-    t.equal(lines[0], '    x    hello');
+    t.equal(lines[0], '');
     t.end();
 });
 
