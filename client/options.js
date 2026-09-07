@@ -9,12 +9,12 @@ import {
     defaultKeymap,
     emacsStyleKeymap,
     indentWithTab,
-    insertNewlineKeepIndent,
+    insertNewlineAndIndent,
 } from '@codemirror/commands';
 
 const enterKeepIndent = {
     key: 'Enter',
-    run: insertNewlineKeepIndent,
+    run: insertNewlineAndIndent,
 };
 
 export function keymapExtension(name) {
