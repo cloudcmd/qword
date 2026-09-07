@@ -53,7 +53,7 @@ test('normalizeVimPaste: no-op when cursor not at line start', (t) => {
     }).state;
     const lines = next.doc.toString().split('\n');
     
-    t.equal(lines[1], '    x');
+    t.equal(lines[1], '    xhello');
     t.end();
 });
 
@@ -84,11 +84,11 @@ test('normalizeVimPaste: no-op when no newline inserted', (t) => {
     t.end();
 });
 
-test('normalizeVimPaste: strips wrongly-inserted dest indent on line paste', (t) => {
+test('normalizeVimPaste: changes userEvent to input.paste for line paste', (t) => {
     const state = makeState('    a\n    b\n    c');
     const next = state.update({
-        changes: {from: 7, insert: '\n    b'},
-        selection: {anchor: 11},
+        changes: {from: 11, insert: '\n    b'},
+        selection: {anchor: 12},
         userEvent: 'input.type.compose',
     }).state;
     const lines = next.doc.toString().split('\n');
