@@ -290,12 +290,14 @@ test('Editor: addListener is alias for on', (t) => {
 test('Editor: emit calls registered handler', async (t) => {
     const editor = makeEditor();
     let received = null;
-    const [value] = await once(editor, 'custom');
+    const [value] = await Promise.all([
+        once(editor, 'custom'),
+        editor.emit('custom', 'hello'),
+    ]);
     
     received = value;
-    editor.emit('custom', 'hello');
     
-    t.equal(received, 'hello');
+    t.deepEqual(received, ['hello']);
     t.end();
 });
 
