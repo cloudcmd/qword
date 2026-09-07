@@ -11,7 +11,10 @@ import {
     insertNewlineKeepIndent,
 } from '@codemirror/commands';
 
-const enterKeepIndent = {key: 'Enter', run: insertNewlineKeepIndent};
+const enterKeepIndent = {
+    key: 'Enter',
+    run: insertNewlineKeepIndent,
+};
 
 export function keymapExtension(name) {
     if (name === 'vim')

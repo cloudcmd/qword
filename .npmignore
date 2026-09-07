@@ -1,6 +1,7 @@
 *.config.*
 *.log
 *.lock
+*.spec.*
 
 .*
 ./src/index.js
@@ -12,9 +13,3 @@ client
 modules/execon
 modules/jshint
 coverage
-
-!.jshintrc
-!client/codemirror
-!modules/jshint/dist
-!modules/jshint/package.json
-!modules/jshint/README.md

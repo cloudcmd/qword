@@ -194,4 +194,3 @@ Qword.prototype._clipboard = _clipboard;
 Qword.prototype.save = save;
 Qword.prototype._onSave = _onSave;
 Qword.prototype.showMessage = showMessage;
-

@@ -47,7 +47,10 @@
 .cm-editor .hl-constant       { color: var(--hl-orange); }
 .cm-editor .hl-string         { color: var(--hl-cyan); }
 .cm-editor .hl-number         { color: var(--hl-cyan); }
-.cm-editor .hl-comment        { color: var(--hl-comment); font-style: italic; }
+.cm-editor .hl-comment        { 
+    color: var(--hl-comment);
+    font-style: italic;
+}
 .cm-editor .hl-name           { color: var(--hl-name); }
 .cm-editor .hl-function       { color: var(--hl-blue); }
 .cm-editor .hl-class          { color: var(--hl-blue); }
