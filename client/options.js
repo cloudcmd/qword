@@ -8,12 +8,13 @@ import {
     defaultKeymap,
     emacsStyleKeymap,
     indentWithTab,
+    insertNewlineAndIndent,
     insertNewlineKeepIndent,
 } from '@codemirror/commands';
 
-const enterKeepIndent = {
+const enterWithIndent = {
     key: 'Enter',
-    run: insertNewlineKeepIndent,
+    run: insertNewlineAndIndent,
 };
 
 export function keymapExtension(name) {
@@ -23,7 +24,7 @@ export function keymapExtension(name) {
     if (name === 'emacs')
         return keymap.of([...emacsStyleKeymap, indentWithTab]);
     
-    return keymap.of([enterKeepIndent, indentWithTab, ...defaultKeymap]);
+    return keymap.of([enterWithIndent, indentWithTab, ...defaultKeymap]);
 }
 
 export function themeExtension(name) {
