@@ -20,7 +20,6 @@ import {
     themeExtension,
     languageExtension,
 } from './options/options.js';
-import {normalizeVimPaste} from './options/vim/keep-indent-after-vim-paste.js';
 import {markField, lineField} from './decorations.js';
 
 export function createEditor(element, options = {}) {
@@ -59,7 +58,6 @@ export function createEditor(element, options = {}) {
         langCompartment.of(languageExtension(mode)),
         syntaxHighlighting(highlightStyle),
         indentOnInput(),
-        normalizeVimPaste,
         indentUnit.of('    '),
         ...lineNumbers
             ? [

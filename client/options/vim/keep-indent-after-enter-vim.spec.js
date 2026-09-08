@@ -167,3 +167,4 @@ test('keepIndentAfterEnterVim: no-op when newline comes with indent', (t) => {
     t.equal(lines[1], '    ');
     t.end();
 });
+

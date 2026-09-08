@@ -13,7 +13,6 @@ import {
 } from '@codemirror/commands';
 
 import {keepIndentAfterEnterVim} from './vim/keep-indent-after-enter-vim.js';
-import {normalizeVimPaste} from './vim/keep-indent-after-vim-paste.js';
 
 const enterKeepIndent = {
     key: 'Enter',
@@ -22,7 +21,7 @@ const enterKeepIndent = {
 
 export function keymapExtension(name) {
     if (name === 'vim')
-        return [vim(), keepIndentAfterEnterVim, normalizeVimPaste];
+        return [vim(), keepIndentAfterEnterVim];
     
     if (name === 'emacs')
         return keymap.of([...emacsStyleKeymap, indentWithTab]);
