@@ -168,3 +168,23 @@ test('keepIndentAfterEnterVim: no-op when newline comes with indent', (t) => {
     t.end();
 });
 
+
+test('keepIndentAfterEnterVim: no-op when inserted text is more than a newline (paste)', (t) => {
+    const state = makeState('    hello');
+    const next = state.update({
+        changes: {
+            from: 9,
+            insert: '\n});',
+        },
+        selection: {
+            anchor: 10,
+        },
+    }).state;
+
+    const lines = next.doc
+        .toString()
+        .split('\n');
+
+    t.equal(lines[1], '});');
+    t.end();
+});

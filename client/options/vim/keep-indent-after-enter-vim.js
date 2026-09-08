@@ -30,7 +30,7 @@ export const keepIndentAfterEnterVim = EditorState.transactionFilter.of((tr) => 
     tr.changes.iterChanges((_fromA, _toA, _fromB, _toB, inserted) => {
         const text = inserted.toString();
         
-        if (text.includes('\n'))
+        if (text === '\n')
             insertedNewline = true;
         
         if (text.endsWith(`\n${indent}`))
