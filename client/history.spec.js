@@ -55,3 +55,46 @@ test('history: clearHistory null view does not throw', (t) => {
     t.ok(true);
     t.end();
 });
+
+import {vim} from '@replit/codemirror-vim';
+
+test('history: clearHistory with vim keeps history so u can undo', (t) => {
+    const element = document.createElement('div');
+    document.body.appendChild(element);
+    const compartment = new Compartment();
+    
+    const view = new EditorView({
+        state: EditorState.create({
+            doc: 'hello',
+            extensions: [
+                vim(),
+                compartment.of([
+                    history(),
+                    keymap.of(historyKeymap),
+                ]),
+            ],
+        }),
+        parent: element,
+    });
+    
+    view.dispatch({
+        changes: {from: 5, insert: ' world'},
+        userEvent: 'input',
+    });
+    
+    clearHistory(view, compartment, true);
+    
+    const uEvent = new KeyboardEvent('keydown', {
+        key: 'u',
+        bubbles: true,
+        cancelable: true,
+    });
+    view.contentDOM.dispatchEvent(uEvent);
+    
+    const result = view.state.doc.toString();
+    
+    view.destroy();
+    
+    t.equal(result, 'hello');
+    t.end();
+});

@@ -6,7 +6,7 @@ export function clearHistory(view, historyCompartment, vimEnabled) {
         return;
     
     view.dispatch({
-        effects: historyCompartment.reconfigure(vimEnabled ? [] : [
+        effects: historyCompartment.reconfigure(vimEnabled ? [history()] : [
             history(),
             keymap.of(historyKeymap),
         ]),
