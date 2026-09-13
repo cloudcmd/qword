@@ -5,7 +5,7 @@ import {
     drawSelection,
     keymap,
 } from '@codemirror/view';
-import {history, historyKeymap} from '@codemirror/commands';
+import {history, historyKeymap, indentMore} from '@codemirror/commands';
 import {
     foldGutter,
     codeFolding,
@@ -21,6 +21,14 @@ import {
     languageExtension,
 } from './options/options.js';
 import {markField, lineField} from './decorations.js';
+
+export function onTabKeydown(event, view) {
+    if (event.key !== 'Tab')
+        return false;
+    event.preventDefault();
+    indentMore(view);
+    return true;
+}
 
 export function createEditor(element, options = {}) {
     const {
@@ -80,6 +88,9 @@ export function createEditor(element, options = {}) {
                 EditorView.updateListener.of(updateListener),
             ]
             : [],
+        EditorView.domEventHandlers({
+            keydown: onTabKeydown,
+        }),
         drawSelection(),
         hideCursorOnBlur,
     ];

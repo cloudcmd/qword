@@ -1,5 +1,5 @@
 import {test} from 'supertape';
-import {createEditor} from './create.js';
+import {createEditor, onTabKeydown} from './create.js';
 
 function makeContainer() {
     const element = document.createElement('div');
@@ -188,5 +188,64 @@ test('create: createEditor produces hl-keyword spans for javascript', (t) => {
     view.destroy();
     
     t.ok(spans.length > 0);
+    t.end();
+});
+
+test('create: onTabKeydown returns false for non-Tab key', (t) => {
+    const event = new KeyboardEvent('keydown', {key: 'a'});
+    
+    const result = onTabKeydown(event, null);
+    
+    t.equal(result, false);
+    t.end();
+});
+
+test('create: onTabKeydown calls preventDefault on Tab', (t) => {
+    const view = createEditor(makeContainer(), {value: 'hello'});
+    const event = new KeyboardEvent('keydown', {
+        key: 'Tab',
+        bubbles: true,
+        cancelable: true,
+    });
+    
+    onTabKeydown(event, view);
+    
+    view.destroy();
+    
+    t.ok(event.defaultPrevented);
+    t.end();
+});
+
+test('create: onTabKeydown indents content on Tab', (t) => {
+    const view = createEditor(makeContainer(), {value: 'hello'});
+    const event = new KeyboardEvent('keydown', {
+        key: 'Tab',
+        bubbles: true,
+        cancelable: true,
+    });
+    
+    onTabKeydown(event, view);
+    
+    const result = view.state.doc.toString();
+    
+    view.destroy();
+    
+    t.equal(result, '    hello');
+    t.end();
+});
+
+test('create: onTabKeydown returns true on Tab', (t) => {
+    const view = createEditor(makeContainer(), {value: 'hello'});
+    const event = new KeyboardEvent('keydown', {
+        key: 'Tab',
+        bubbles: true,
+        cancelable: true,
+    });
+    
+    const result = onTabKeydown(event, view);
+    
+    view.destroy();
+    
+    t.equal(result, true);
     t.end();
 });
