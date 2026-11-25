@@ -85,15 +85,6 @@
     "rm:dist-dev": "madrun rm:dist-dev"
   },
   "dependencies": {
-    "currify": "^4.0.0",
-    "express": "^5.2.1",
-    "join-io": "^5.0.0",
-    "readjson": "^2.0.1",
-    "restafary": "^13.0.1",
-    "restbox": "^4.0.1",
-    "socket-file": "^8.0.0",
-    "socket.io": "^4.0.0",
-    "try-to-catch": "^4.0.5",
     "@codemirror/commands": "^6.10.3",
     "@codemirror/lang-html": "^6.4.11",
     "@codemirror/lang-javascript": "^6.2.5",
@@ -104,7 +95,16 @@
     "@codemirror/view": "^6.42.1",
     "@lezer/highlight": "^1.2.3",
     "@replit/codemirror-vim": "^6.3.0",
-    "@uiw/codemirror-theme-nord": "^4.25.11"
+    "@uiw/codemirror-theme-nord": "^4.25.11",
+    "currify": "^4.0.0",
+    "express": "^5.2.1",
+    "join-io": "^5.0.0",
+    "readjson": "^2.0.1",
+    "restafary": "^13.0.1",
+    "restbox": "^5.0.1",
+    "socket-file": "^8.0.0",
+    "socket.io": "^4.0.0",
+    "try-to-catch": "^4.0.5"
   },
   "devDependencies": {
     "@cloudcmd/clipboard": "^2.0.0",
