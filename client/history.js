@@ -4,9 +4,9 @@ import {keymap} from '@codemirror/view';
 export function clearHistory(view, historyCompartment, vimEnabled) {
     if (!view)
         return;
-
+    
     const effects = [history];
-
+    
     if (!vimEnabled)
         effects.push(keymap.of(historyKeymap));
     
