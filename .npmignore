@@ -6,6 +6,4 @@
 .*
 ./src/index.js
 
-*.config.*
-
 coverage

@@ -1,10 +1,12 @@
 import {safeAlign} from 'eslint-plugin-putout';
 import {defineConfig} from 'eslint/config';
+import {matchToFlat} from '@putout/eslint-flat';
 
-export default defineConfig([
-    safeAlign, {
-        rules: {
-            'n/no-unsupported-features/node-builtins': 'off',
-        },
+export const match = {
+    '**/client/**': {
+        'n/no-unpublished-import': 'off',
+        'n/no-unsupported-features/node-builtins': 'off',
     },
-]);
+};
+
+export default defineConfig([safeAlign, matchToFlat(match)]);

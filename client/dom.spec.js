@@ -48,7 +48,7 @@ test('dom: refresh calls requestMeasure without throwing', (t) => {
     
     view.destroy();
     
-    t.ok(true);
+    t.pass();
     t.end();
 });
 
@@ -73,6 +73,6 @@ test('dom: observeResize cleanup disconnects without throwing', (t) => {
     
     view.destroy();
     
-    t.ok(true);
+    t.pass();
     t.end();
 });

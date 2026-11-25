@@ -27,7 +27,7 @@ Fork of [edward](https://github.com/cloudcmd/edward "Edward").
 npm i qword -g
 ```
 
-![NPM\_INFO][NPM_INFO_IMG]
+![NPM_INFO][NPM_INFO_IMG]
 
 ## Command line parameters
 

@@ -2,6 +2,7 @@ import {test} from 'supertape';
 import {EditorState, Compartment} from '@codemirror/state';
 import {EditorView, keymap} from '@codemirror/view';
 import {history, historyKeymap} from '@codemirror/commands';
+import {vim} from '@replit/codemirror-vim';
 import {clearHistory} from './history.js';
 
 const historyExtensions = [
@@ -35,7 +36,7 @@ test('history: clearHistory does not throw', (t) => {
     clearHistory(view, compartment, false);
     view.destroy();
     
-    t.ok(true);
+    t.pass();
     t.end();
 });
 
@@ -44,7 +45,7 @@ test('history: clearHistory with vim does not throw', (t) => {
     clearHistory(view, compartment, true);
     view.destroy();
     
-    t.ok(true);
+    t.pass();
     t.end();
 });
 
@@ -52,11 +53,9 @@ test('history: clearHistory null view does not throw', (t) => {
     const {compartment} = makeView();
     clearHistory(null, compartment, false);
     
-    t.ok(true);
+    t.pass();
     t.end();
 });
-
-import {vim} from '@replit/codemirror-vim';
 
 test('history: clearHistory with vim keeps history so u can undo', (t) => {
     const element = document.createElement('div');
@@ -78,7 +77,10 @@ test('history: clearHistory with vim keeps history so u can undo', (t) => {
     });
     
     view.dispatch({
-        changes: {from: 5, insert: ' world'},
+        changes: {
+            from: 5,
+            insert: ' world',
+        },
         userEvent: 'input',
     });
     
@@ -89,6 +91,7 @@ test('history: clearHistory with vim keeps history so u can undo', (t) => {
         bubbles: true,
         cancelable: true,
     });
+    
     view.contentDOM.dispatchEvent(uEvent);
     
     const result = view.state.doc.toString();

@@ -134,7 +134,7 @@ test('options: setOption theme dispatches without throwing', (t) => {
     setOption(view, 'theme', 'nord');
     view.destroy();
     
-    t.ok(true);
+    t.pass();
     t.end();
 });
 
@@ -143,7 +143,7 @@ test('options: setOption keyMap dispatches without throwing', (t) => {
     setOption(view, 'keyMap', 'vim');
     view.destroy();
     
-    t.ok(true);
+    t.pass();
     t.end();
 });
 
@@ -152,7 +152,7 @@ test('options: setOption mode dispatches without throwing', (t) => {
     setOption(view, 'mode', 'javascript');
     view.destroy();
     
-    t.ok(true);
+    t.pass();
     t.end();
 });
 
@@ -193,6 +193,7 @@ test('options: keymapExtension vim returns array not wrapped in keymap.of', (t) 
 
 test('options: keymapExtension vim can be reconfigured after switching to default', (t) => {
     const view = makeViewWithKeymapCompartment('vim');
+    
     view.dispatch({
         effects: view._keymapCompartment.reconfigure(keymapExtension('default')),
     });
@@ -201,10 +202,9 @@ test('options: keymapExtension vim can be reconfigured after switching to defaul
     });
     view.destroy();
     
-    t.ok(true);
+    t.pass();
     t.end();
 });
-
 
 test('options: themeExtension unknown returns empty array', (t) => {
     const result = themeExtension('unknown');
@@ -220,8 +220,7 @@ test('options: setOption keyMap vim dispatches without throwing after round-trip
     setOption(view, 'keyMap', 'default');
     setOption(view, 'keyMap', 'vim');
     view.destroy();
-
-    t.ok(true);
+    
+    t.pass();
     t.end();
 });
-

@@ -117,9 +117,11 @@ export default class Editor {
     }
     
     setModeForPath(path) {
-        return this.setMode(path
-            .split('.')
-            .pop());
+        return this.setMode(
+            path
+                .split('.')
+                .pop(),
+        );
     }
     
     isChanged() {

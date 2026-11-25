@@ -95,4 +95,3 @@ function binom(name, array) {
     
     return ret;
 }
-

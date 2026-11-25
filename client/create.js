@@ -5,7 +5,11 @@ import {
     drawSelection,
     keymap,
 } from '@codemirror/view';
-import {history, historyKeymap, indentMore} from '@codemirror/commands';
+import {
+    history,
+    historyKeymap,
+    indentMore,
+} from '@codemirror/commands';
 import {
     foldGutter,
     codeFolding,
@@ -25,8 +29,10 @@ import {markField, lineField} from './decorations.js';
 export function onTabKeydown(event, view) {
     if (event.key !== 'Tab')
         return false;
+    
     event.preventDefault();
     indentMore(view);
+    
     return true;
 }
 

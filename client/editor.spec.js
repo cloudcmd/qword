@@ -184,7 +184,7 @@ test('Editor: setOption emacs does not throw', (t) => {
     const editor = makeEditor();
     editor.setOption('keyMap', 'emacs');
     
-    t.ok(true);
+    t.pass();
     t.end();
 });
 
@@ -192,7 +192,7 @@ test('Editor: setOption keyMap vim sets vim mode', (t) => {
     const editor = makeEditor();
     editor.setOption('keyMap', 'vim');
     
-    t.ok(true);
+    t.pass();
     t.end();
 });
 
@@ -290,14 +290,17 @@ test('Editor: addListener is alias for on', (t) => {
 test('Editor: emit calls registered handler', async (t) => {
     const editor = makeEditor();
     let received = null;
+    
     const [value] = await Promise.all([
         once(editor, 'custom'),
         editor.emit('custom', 'hello'),
     ]);
     
     received = value;
+    const result = received;
+    const expected = ['hello'];
     
-    t.deepEqual(received, ['hello']);
+    t.deepEqual(result, expected);
     t.end();
 });
 
