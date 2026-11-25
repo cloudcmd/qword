@@ -206,6 +206,7 @@ test('create: onTabKeydown calls preventDefault on Tab', (t) => {
     const view = createEditor(makeContainer(), {
         value: 'hello',
     });
+    
     const event = new KeyboardEvent('keydown', {
         key: 'Tab',
         bubbles: true,
@@ -224,6 +225,7 @@ test('create: onTabKeydown indents content on Tab', (t) => {
     const view = createEditor(makeContainer(), {
         value: 'hello',
     });
+    
     const event = new KeyboardEvent('keydown', {
         key: 'Tab',
         bubbles: true,
@@ -244,6 +246,7 @@ test('create: onTabKeydown returns true on Tab', (t) => {
     const view = createEditor(makeContainer(), {
         value: 'hello',
     });
+    
     const event = new KeyboardEvent('keydown', {
         key: 'Tab',
         bubbles: true,
